@@ -1,0 +1,711 @@
+<!-- Wearable AI Health Monitor v1.0 | Built with Web Audio API + Chart.js -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wearable AI Intelligence | Pulse Engine</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --normal-primary: #00C48C;
+            --normal-glow: rgba(0, 196, 140, 0.3);
+            --stress-primary: #F59E0B;
+            --stress-glow: rgba(245, 158, 11, 0.3);
+            --emergency-primary: #EF4444;
+            --emergency-glow: rgba(239, 68, 68, 0.4);
+            --bg-deep: #080808;
+            --bg-surface: #111111;
+            --bg-card: #1a1a1a;
+            --text-primary: #FFFFFF;
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --font-main: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            margin: 0;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Animations */
+        @keyframes breathe {
+            0%, 100% { transform: scale(1.0); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        @keyframes emergency-bg {
+            0%, 100% { background-color: #0a0a0a; }
+            50% { background-color: #1a0000; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+
+        @keyframes slide-up {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes sonar {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        .animate-breathe { animation: breathe 4s ease-in-out infinite; }
+        .animate-shake { animation: shake 0.4s ease infinite; }
+        .animate-emergency-bg { animation: emergency-bg 0.6s ease-in-out infinite; }
+        .animate-slide-up { animation: slide-up 0.4s ease forwards; }
+
+        /* Watch Shell */
+        .watch-shell {
+            width: 280px;
+            height: 340px;
+            background-color: #080808;
+            border-radius: 60px;
+            padding: 12px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 10px rgba(255,255,255,0.05);
+            transition: all 0.8s ease;
+        }
+
+        .watch-bezel {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            border-radius: 48px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .watch-crown {
+            position: absolute;
+            right: -14px;
+            top: 70px;
+            width: 8px;
+            height: 40px;
+            background: linear-gradient(to bottom, #1a1a1a, #333, #1a1a1a);
+            border-radius: 4px;
+            z-index: 10;
+        }
+
+        .watch-button {
+            position: absolute;
+            right: -12px;
+            top: 130px;
+            width: 4px;
+            height: 70px;
+            background: #111;
+            border-radius: 2px;
+            z-index: 10;
+        }
+
+        .watch-glow {
+            position: absolute;
+            inset: -4px;
+            border: 3px solid var(--normal-primary);
+            border-radius: 64px;
+            filter: blur(2px);
+            opacity: 0.5;
+            transition: all 0.8s ease;
+        }
+
+        /* Glass Switcher */
+        .mode-switcher {
+            background: rgba(255,255,255,0.04);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .tab-pill {
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .tab-pill.active {
+            color: #fff;
+            background-color: var(--normal-primary);
+        }
+
+        /* Mode Containers */
+        .mode-view {
+            display: none;
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        .mode-view.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Decision Tree / Text */
+        .typewriter {
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            border-right: .15em solid var(--normal-primary);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--normal-primary); }
+        }
+
+        /* Chart Canvas Size */
+        .sparkline-container {
+            height: 40px;
+            width: 100%;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 3px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <header class="mode-switcher px-6 py-3 flex items-center justify-between">
+        <div class="flex gap-4">
+            <div onclick="switchMode('user')" id="tab-user" class="tab-pill active">👤 User View</div>
+            <div onclick="switchMode('advanced')" id="tab-advanced" class="tab-pill">🧪 Advanced</div>
+            <div onclick="switchMode('watch')" id="tab-watch" class="tab-pill">⌚ Watch Mode</div>
+        </div>
+        <div class="flex items-center gap-3">
+            <div id="global-status-dot" class="w-2.5 h-2.5 rounded-full bg-[#00C48C] animate-pulse"></div>
+            <span id="global-status-text" class="text-[10px] tracking-[2px] uppercase font-bold text-white">NORMAL</span>
+        </div>
+    </header>
+
+    <!-- USER VIEW -->
+    <main id="view-user" class="mode-view active justify-center">
+        <div id="user-card" class="user-card w-full max-w-lg mx-4 bg-[#111] p-12 rounded-[40px] text-center border border-white/5 animate-breathe">
+            <div id="user-status-emoji" class="text-9xl mb-8 transition-transform duration-500">✅</div>
+            <h1 id="user-status-headline" class="text-5xl font-extrabold mb-4 transition-all duration-500">You're doing great</h1>
+            <p id="user-status-guidance" class="text-xl text-white/50 mb-12">All biometrics are within normal range.</p>
+            
+            <div class="flex gap-6 justify-center">
+                <button onclick="userAcknowledge()" class="px-8 py-4 bg-white/5 hover:bg-white/10 rounded-2xl font-bold transition-all active:scale-95">✅ I'm Fine</button>
+                <button onclick="triggerCall()" class="px-8 py-4 bg-red-500 hover:bg-red-600 rounded-2xl font-bold transition-all active:scale-95 shadow-[0_0_20px_rgba(239,68,68,0.4)]">🆘 Get Help</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- ADVANCED VIEW -->
+    <main id="view-advanced" class="mode-view px-8 pb-12">
+        <div class="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Left: Live Data -->
+            <div class="bg-[#111] rounded-[32px] p-8 border border-white/5">
+                <h2 class="text-xs font-bold tracking-[2px] text-white/40 mb-8 uppercase">Biometric Stream</h2>
+                
+                <div class="space-y-8">
+                    <!-- BPM -->
+                    <div class="flex items-center gap-6">
+                        <div class="w-12 text-2xl">❤️</div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="text-sm font-medium text-white/50">Heart Rate</span>
+                                <span id="adv-bpm" class="text-2xl font-bold text-[#00C48C]">72 <span class="text-xs opacity-50">BPM</span></span>
+                            </div>
+                            <div class="sparkline-container">
+                                <canvas id="chart-bpm"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- SpO2 -->
+                    <div class="flex items-center gap-6">
+                        <div class="w-12 text-2xl">🌬️</div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="text-sm font-medium text-white/50">Blood Oxygen (SpO2)</span>
+                                <span id="adv-spo2" class="text-2xl font-bold text-[#00C48C]">98 <span class="text-xs opacity-50">%</span></span>
+                            </div>
+                            <div class="sparkline-container">
+                                <canvas id="chart-spo2"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GSR -->
+                    <div class="flex items-center gap-6">
+                        <div class="w-12 text-2xl">😰</div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="text-sm font-medium text-white/50">GSR (Stress)</span>
+                                <span id="adv-gsr" class="text-2xl font-bold text-[#00C48C]">2.4 <span class="text-xs opacity-50">μS</span></span>
+                            </div>
+                            <div class="sparkline-container">
+                                <canvas id="chart-gsr"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Temp -->
+                    <div class="flex items-center gap-6">
+                        <div class="w-12 text-2xl">🌡️</div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="text-sm font-medium text-white/50">Skin Temperature</span>
+                                <span id="adv-temp" class="text-2xl font-bold text-[#00C48C]">36.6 <span class="text-xs opacity-50">°C</span></span>
+                            </div>
+                            <div class="sparkline-container">
+                                <canvas id="chart-temp"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: AI Brain -->
+            <div class="flex flex-col gap-8">
+                <div class="flex-1 bg-[#111] rounded-[32px] p-8 border border-white/5">
+                    <h2 class="text-xs font-bold tracking-[2px] text-white/40 mb-6 uppercase">AI Reasoning Engine</h2>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="bg-white/5 p-4 rounded-2xl">
+                            <div class="text-[10px] text-white/30 uppercase tracking-wider mb-1">Model</div>
+                            <div class="text-sm font-bold">Claude 3.5 Sonnet</div>
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-2xl">
+                            <div class="text-[10px] text-white/30 uppercase tracking-wider mb-1">Latency</div>
+                            <div id="adv-latency" class="text-sm font-bold">247ms</div>
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-2xl">
+                            <div class="text-[10px] text-white/30 uppercase tracking-wider mb-1">Confidence</div>
+                            <div id="adv-confidence" class="text-sm font-bold">94.2%</div>
+                        </div>
+                        <div class="bg-white/5 p-4 rounded-2xl">
+                            <div class="text-[10px] text-white/30 uppercase tracking-wider mb-1">Urgency</div>
+                            <div id="adv-urgency" class="text-sm font-bold text-[#00C48C]">0.12/1.0</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="text-[10px] font-bold text-white/30 uppercase tracking-[2px] mb-4">Decision Tree</h3>
+                        <div id="adv-decision-tree" class="space-y-2 font-mono text-xs text-white/60">
+                            <div>> Sensor fusion complete</div>
+                            <div>> Baseline synchronization ✓</div>
+                            <div>> Normal pattern identified</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-[10px] font-bold text-white/30 uppercase tracking-[2px] mb-4">LLM Response</h3>
+                        <div id="adv-llm-text" class="bg-black/40 p-4 rounded-xl font-mono text-xs text-[#00C48C] border border-[#00C48C]/20 leading-relaxed">
+                            System is operating within optimal parameters. No deviations detected in current biometric window.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Stats -->
+                <div class="bg-[#111] rounded-[24px] p-6 border border-white/5 flex justify-between text-[10px] font-bold tracking-widest text-white/20 uppercase">
+                    <div>Tokens: <span id="stat-tokens" class="text-white/40">1,204</span></div>
+                    <div>API: <span id="stat-api" class="text-white/40">Healthy</span></div>
+                    <div>Uptime: <span id="stat-uptime" class="text-white/40">12:04:12</span></div>
+                    <div>Mem: <span id="stat-mem" class="text-white/40">24MB</span></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- WATCH VIEW -->
+    <main id="view-watch" class="mode-view justify-center">
+        <div class="watch-shell" id="watch-outer">
+            <div id="watch-glow" class="watch-glow"></div>
+            <div class="watch-crown"></div>
+            <div class="watch-button"></div>
+            
+            <div id="watch-bezel" class="watch-bezel p-6">
+                <!-- Watch Header -->
+                <div class="flex justify-between items-start mb-12">
+                    <div class="text-[10px] font-bold text-white/50 tracking-tighter">SAT <span id="watch-time">10:42</span></div>
+                    <div id="watch-crown-indicator" class="w-2 h-2 rounded-full bg-white/10"></div>
+                </div>
+
+                <!-- Watch Main Content -->
+                <div id="watch-main-content" class="flex-1 flex flex-col items-center justify-center text-center">
+                    <div class="mb-1">
+                        <span id="watch-bpm" class="text-6xl font-extrabold tracking-tighter transition-all duration-800">72</span>
+                    </div>
+                    <div class="text-[10px] font-bold tracking-[4px] text-white/30 mb-8 uppercase">BPM</div>
+                    
+                    <div class="flex items-center gap-2 mb-8">
+                        <div id="watch-dot" class="w-2 h-2 rounded-full bg-[#00C48C] shadow-[0_0_8px_rgba(0,196,140,0.5)]"></div>
+                        <span id="watch-status-label" class="text-[10px] font-bold text-white/70 uppercase tracking-widest">Normal</span>
+                    </div>
+                </div>
+
+                <!-- Watch Footer -->
+                <div id="watch-footer" class="flex justify-between items-center text-[10px] font-bold text-white/40 uppercase tracking-tighter">
+                    <div>SpO₂ <span id="watch-spo2" class="text-white/80">98%</span></div>
+                    <div>Temp <span id="watch-temp" class="text-white/80">36.6°</span></div>
+                </div>
+
+                <!-- EMERGENCY OVERLAY (HIDDEN) -->
+                <div id="watch-emergency-overlay" class="absolute inset-0 bg-red-600 flex-col items-center justify-center p-6 text-center hidden">
+                    <div class="text-5xl mb-4">🚨</div>
+                    <div class="text-sm font-bold uppercase tracking-widest mb-2">Emergency</div>
+                    <div id="watch-emergency-countdown" class="text-xs text-white/80 mb-6 italic">Auto-calling in 5...</div>
+                    
+                    <div class="flex gap-2 w-full">
+                        <button onclick="userAcknowledge()" class="flex-1 py-2.5 bg-black/40 rounded-xl text-[10px] font-bold uppercase tracking-widest">Cancel</button>
+                        <button onclick="triggerCall()" class="flex-1 py-2.5 bg-white/20 rounded-xl text-[10px] font-bold uppercase tracking-widest backdrop-blur-sm">Call</button>
+                    </div>
+                </div>
+
+                <!-- CALLING OVERLAY (HIDDEN) -->
+                <div id="watch-calling-overlay" class="absolute inset-0 bg-black flex-col items-center justify-center p-6 text-center hidden">
+                    <div class="relative w-24 h-24 mb-6">
+                        <div class="absolute inset-0 bg-green-500 rounded-full animate-[sonar_2s_infinite]"></div>
+                        <div class="absolute inset-0 flex items-center justify-center bg-green-500 rounded-full">
+                            <span class="text-3xl">📞</span>
+                        </div>
+                    </div>
+                    <div id="watch-calling-status" class="text-[10px] font-bold uppercase tracking-widest text-white/70 animate-pulse">Connecting...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- DATA STATE ---
+        let currentState = 'normal'; // 'normal', 'stress', 'emergency'
+        let currentBPM = 72;
+        let currentSpO2 = 98;
+        let currentGSR = 2.4;
+        let currentTemp = 36.6;
+        let timer = 0;
+        let countdown = 5;
+        let isCalling = false;
+        let isAcknowledge = false;
+        let audioCtx = null;
+
+        const history = { bpm: [], spo2: [], gsr: [], temp: [] };
+        const maxHistory = 30;
+
+        // --- THEME TOKENS ---
+        const themes = {
+            normal: { primary: '#00C48C', glow: 'rgba(0,196,140,0.3)', emoji: '✅', headline: "You're doing great", guidance: "All biometrics are within normal range." },
+            stress: { primary: '#F59E0B', glow: 'rgba(245,158,11,0.3)', emoji: '😰', headline: "Slow things down", guidance: "Elevated stress detected. Try breathing." },
+            emergency: { primary: '#EF4444', glow: 'rgba(239,68,68,0.4)', emoji: '🚨', headline: "Help is needed", guidance: "Critical heart activity detected." }
+        };
+
+        // --- INITIALIZATION ---
+        window.onload = () => {
+            initCharts();
+            setInterval(updateEngine, 800);
+            updateUI();
+        };
+
+        // --- MODE SWITCHER ---
+        function switchMode(mode) {
+            document.querySelectorAll('.mode-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.tab-pill').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(`view-${mode}`).classList.add('active');
+            document.getElementById(`tab-${mode}`).classList.add('active');
+            
+            // Adjust pill color to match state
+            document.querySelectorAll('.tab-pill').forEach(p => {
+                if(p.classList.contains('active')) {
+                    p.style.backgroundColor = themes[currentState].primary;
+                } else {
+                    p.style.backgroundColor = 'transparent';
+                }
+            });
+        }
+
+        // --- ENGINE ---
+        function updateEngine() {
+            if (isCalling) return;
+
+            timer += 0.8;
+            
+            // State Machine: 0-25s normal, 25-45s stress, 45-60s emergency, 60s+ loop
+            const cycle = timer % 60;
+            let newState = 'normal';
+            if (cycle > 25 && cycle <= 45) newState = 'stress';
+            if (cycle > 45) newState = 'emergency';
+
+            if (isAcknowledge && newState === 'emergency') {
+                newState = 'stress'; // Suppress after acknowledge
+            }
+
+            if (newState !== currentState) {
+                currentState = newState;
+                if(currentState === 'emergency') {
+                    playAlert('emergency');
+                    countdown = 5;
+                } else if(currentState === 'stress') {
+                    playAlert('stress');
+                    isAcknowledge = False; // Reset for next cycle
+                }
+                updateTheme();
+            }
+
+            // Biometrics Generation
+            const targets = {
+                normal: { bpm: 72, spo2: 98, gsr: 2.4, temp: 36.6 },
+                stress: { bpm: 98, spo2: 96, gsr: 6.8, temp: 37.2 },
+                emergency: { bpm: 132, spo2: 94, gsr: 12.4, temp: 37.8 }
+            };
+
+            const target = targets[currentState];
+            currentBPM = lerp(currentBPM, target.bpm + (Math.random() - 0.5) * 6, 0.2);
+            currentSpO2 = lerp(currentSpO2, target.spo2 + (Math.random() - 0.5) * 1, 0.1);
+            currentGSR = lerp(currentGSR, target.gsr + (Math.random() - 0.5) * 1, 0.1);
+            currentTemp = lerp(currentTemp, target.temp + (Math.random() - 0.5) * 0.2, 0.1);
+
+            updateHistory();
+            updateCharts();
+            updateUI();
+
+            if (currentState === 'emergency' && !isAcknowledge) {
+                if (countdown > 0) {
+                    countdown--;
+                    document.getElementById('watch-emergency-countdown').innerText = `Auto-calling in ${countdown}...`;
+                } else {
+                    triggerCall();
+                }
+            }
+        }
+
+        function lerp(start, end, amt) {
+            return (1 - amt) * start + amt * end;
+        }
+
+        // --- UI UPDATES ---
+        function updateUI() {
+            // Watch Time
+            const now = new Date();
+            document.getElementById('watch-time').innerText = now.getHours() + ":" + now.getMinutes().toString().padStart(2, '0');
+            
+            // Watch Face
+            document.getElementById('watch-bpm').innerText = Math.round(currentBPM);
+            document.getElementById('watch-spo2').innerText = Math.round(currentSpO2) + '%';
+            document.getElementById('watch-temp').innerText = currentTemp.toFixed(1) + '°';
+            
+            // Advanced View
+            document.getElementById('adv-bpm').innerText = Math.round(currentBPM);
+            document.getElementById('adv-spo2').innerText = Math.round(currentSpO2) + '%';
+            document.getElementById('adv-gsr').innerText = currentGSR.toFixed(1) + ' μS';
+            document.getElementById('adv-temp').innerText = currentTemp.toFixed(1) + ' °C';
+            
+            document.getElementById('adv-urgency').innerText = (currentState === 'normal' ? 0.12 : (currentState === 'stress' ? 0.45 : 0.88)) + '/1.0';
+            document.getElementById('adv-confidence').innerText = (90 + Math.random() * 8).toFixed(1) + '%';
+            document.getElementById('adv-latency').innerText = Math.round(200 + Math.random() * 100) + 'ms';
+            
+            // Stats
+            document.getElementById('stat-tokens').innerText = (1200 + Math.floor(timer)).toLocaleString();
+            document.getElementById('stat-uptime').innerText = new Date(timer * 1000).toISOString().substr(11, 8);
+
+            // Reasoning Logic Display
+            const dt = document.getElementById('adv-decision-tree');
+            const llm = document.getElementById('adv-llm-text');
+            if (currentState === 'normal') {
+                dt.innerHTML = "<div>> Sensor fusion complete</div><div>> Baseline sync ✓</div><div>> Normal pattern identified</div>";
+                llm.innerText = "System is operating within optimal parameters. No deviations detected.";
+                llm.style.color = '#00C48C';
+            } else if (newState === 'stress') {
+                dt.innerHTML = "<div>> HR rising detected</div><div>> GSR spike confirmed</div><div>> Stress cluster match</div>";
+                llm.innerText = "User is exhibiting physiological markers of acute stress. Initiating guidance protocols.";
+                llm.style.color = '#F59E0B';
+            } else {
+                dt.innerHTML = "<div>> Critical HR detected</div><div>> Tachycardia alert</div><div>> Escalating to Emergency</div>";
+                llm.innerText = "CRITICAL: Physiological failure imminent. Heart rate exceeds safe threshold. Executing emergency alert.";
+                llm.style.color = '#EF4444';
+            }
+        }
+
+        function updateTheme() {
+            const theme = themes[currentState];
+            
+            // Header
+            const dot = document.getElementById('global-status-dot');
+            const text = document.getElementById('global-status-text');
+            dot.style.backgroundColor = theme.primary;
+            text.innerText = currentState;
+            text.style.color = theme.primary;
+
+            const activeTab = document.querySelector('.tab-pill.active');
+            if(activeTab) activeTab.style.backgroundColor = theme.primary;
+
+            // User View
+            const card = document.getElementById('user-card');
+            card.style.borderColor = theme.primary + '33';
+            document.getElementById('user-status-emoji').innerText = theme.emoji;
+            document.getElementById('user-status-headline').innerText = theme.headline;
+            document.getElementById('user-status-headline').style.color = theme.primary;
+            document.getElementById('user-status-guidance').innerText = theme.guidance;
+
+            // Watch View
+            document.getElementById('watch-glow').style.borderColor = theme.primary;
+            document.getElementById('watch-dot').style.backgroundColor = theme.primary;
+            document.getElementById('watch-bpm').style.color = theme.primary;
+            document.getElementById('watch-status-label').innerText = currentState;
+            document.getElementById('watch-status-label').style.color = theme.primary;
+
+            // Advanced Colors
+            document.getElementById('adv-bpm').style.color = theme.primary;
+            document.getElementById('adv-spo2').style.color = theme.primary;
+            document.getElementById('adv-gsr').style.color = theme.primary;
+            document.getElementById('adv-temp').style.color = theme.primary;
+            document.getElementById('adv-urgency').style.color = theme.primary;
+
+            // Emergency Specifics
+            if (currentState === 'emergency' && !isAcknowledge) {
+                document.getElementById('watch-outer').classList.add('animate-shake');
+                document.getElementById('watch-bezel').classList.add('animate-emergency-bg');
+                document.getElementById('watch-emergency-overlay').classList.remove('hidden');
+                document.getElementById('watch-emergency-overlay').classList.add('flex');
+            } else {
+                document.getElementById('watch-outer').classList.remove('animate-shake');
+                document.getElementById('watch-bezel').classList.remove('animate-emergency-bg');
+                document.getElementById('watch-emergency-overlay').classList.add('hidden');
+                document.getElementById('watch-emergency-overlay').classList.remove('flex');
+            }
+        }
+
+        // --- CHARTS ---
+        let charts = {};
+        function initCharts() {
+            const chartConfig = (color) => ({
+                type: 'line',
+                data: { labels: Array(maxHistory).fill(''), datasets: [{ data: [], borderColor: color, borderWidth: 2, fill: false, tension: 0.4, pointRadius: 0 }] },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    scales: { x: { display: false }, y: { display: false } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            charts.bpm = new Chart(document.getElementById('chart-bpm'), chartConfig('#00C48C'));
+            charts.spo2 = new Chart(document.getElementById('chart-spo2'), chartConfig('#00C48C'));
+            charts.gsr = new Chart(document.getElementById('chart-gsr'), chartConfig('#00C48C'));
+            charts.temp = new Chart(document.getElementById('chart-temp'), chartConfig('#00C48C'));
+        }
+
+        function updateHistory() {
+            history.bpm.push(currentBPM);
+            history.spo2.push(currentSpO2);
+            history.gsr.push(currentGSR);
+            history.temp.push(currentTemp);
+
+            if (history.bpm.length > maxHistory) {
+                history.bpm.shift(); history.spo2.shift(); history.gsr.shift(); history.temp.shift();
+            }
+        }
+
+        function updateCharts() {
+            Object.keys(charts).forEach(key => {
+                charts[key].data.datasets[0].data = history[key];
+                charts[key].data.datasets[0].borderColor = themes[currentState].primary;
+                charts[key].update('none');
+            });
+        }
+
+        // --- ACTIONS ---
+        function userAcknowledge() {
+            isAcknowledge = true;
+            isCalling = false;
+            currentState = 'stress';
+            updateTheme();
+            document.getElementById('watch-emergency-overlay').classList.add('hidden');
+            document.getElementById('watch-calling-overlay').classList.add('hidden');
+        }
+
+        function triggerCall() {
+            if (isCalling) return;
+            isCalling = true;
+            document.getElementById('watch-emergency-overlay').classList.add('hidden');
+            document.getElementById('watch-calling-overlay').classList.remove('hidden');
+            document.getElementById('watch-calling-overlay').classList.add('flex');
+            
+            setTimeout(() => {
+                document.getElementById('watch-calling-status').innerText = "Call Connected ✓";
+                document.getElementById('watch-calling-status').style.color = "#00C48C";
+            }, 4000);
+
+            setTimeout(() => {
+                userAcknowledge();
+                timer = 0; // Restart demo cycle
+            }, 8000);
+        }
+
+        // --- AUDIO ENGINE ---
+        function playAlert(type) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                const play = (freq, duration, delay = 0) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0, audioCtx.currentTime + delay);
+                    gain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + delay + 0.01);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + delay + duration);
+                    osc.start(audioCtx.currentTime + delay);
+                    osc.stop(audioCtx.currentTime + delay + duration);
+                };
+
+                if (type === 'emergency') {
+                    play(750, 0.1, 0);
+                    play(750, 0.1, 0.15);
+                    play(750, 0.1, 0.3);
+                } else {
+                    play(440, 0.3, 0);
+                }
+            } catch (e) { console.warn("Audio Context blocked"); }
+        }
+
+    </script>
+</body>
+</html>
