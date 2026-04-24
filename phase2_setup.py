@@ -99,7 +99,6 @@ def test_hybrid_system():
     print("TESTING HYBRID SYSTEM (MOCK MODE)")
     print("="*80)
     
-    # Test sensor data
     test_cases = [
         {
             "name": "Normal Case",
@@ -120,7 +119,6 @@ def test_hybrid_system():
     try:
         from wearable_brain_v2 import WearableContextBrainV2
         
-        # Test with LLM disabled (fallback mode)
         brain = WearableContextBrainV2(use_llm=False)
         
         for test_case in test_cases:
@@ -368,7 +366,7 @@ def main():
     
     args = parser.parse_args()
     
-    # If no args, show all
+
     if not any(vars(args).values()):
         args.all = True
     

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 """
 Test Groq LLM Integration with Wearable Brain
 """
@@ -8,7 +8,7 @@ import sys
 import json
 from typing import Dict, Any
 
-# Set API key
+
 os.environ['GROQ_API_KEY'] = 'REMOVED'
 
 def test_groq_connection():
@@ -23,7 +23,7 @@ def test_groq_connection():
         client = Groq(api_key=os.getenv("GROQ_API_KEY"))
         print("✅ Groq client initialized")
         
-        # Quick test call
+
         message = client.messages.create(
             model="llama-3.1-70b-versatile",
             max_tokens=50,
@@ -59,7 +59,7 @@ def test_llm_reasoner():
         
         print("✅ LLM Reasoner initialized")
         
-        # Test stress case
+
         sensor_data = {
             "hr": 115,
             "movement": 0.15,
@@ -114,7 +114,7 @@ def test_hybrid_system():
     try:
         from wearable_brain_v2 import WearableContextBrainV2, ScenarioSimulator
         
-        # Initialize hybrid system
+
         brain = WearableContextBrainV2(use_llm=True, groq_api_key=os.getenv("GROQ_API_KEY"))
         
         if brain.llm_enabled:
@@ -122,7 +122,7 @@ def test_hybrid_system():
         else:
             print("⚠️ LLM not available, fallback to rule-based")
         
-        # Test stress case
+
         print("\n📋 Processing: Stress Case")
         print("-" * 80)
         
@@ -149,7 +149,7 @@ def test_hybrid_system():
         print(f"\n✅ Final Decision: {output['final_decision']['action']}")
         print(f"   Reason: {output['final_decision']['reason'][:80]}...")
         
-        # Test emergency case
+
         print("\n📋 Processing: Emergency Case")
         print("-" * 80)
         
@@ -198,7 +198,7 @@ def run_full_simulation():
         
         results = ScenarioSimulator.run_all_scenarios(brain)
         
-        # Summary
+
         print("\n" + "="*80)
         print("SIMULATION SUMMARY")
         print("="*80)
@@ -224,19 +224,19 @@ def main():
     
     results = []
     
-    # Test 1: Connection
+    
     results.append(("Groq Connection", test_groq_connection()))
     
-    # Test 2: LLM Reasoner
+    
     results.append(("LLM Reasoner", test_llm_reasoner()))
     
-    # Test 3: Hybrid System
+    
     results.append(("Hybrid System", test_hybrid_system()))
     
-    # Test 4: Full Simulation
+    
     results.append(("Full Simulation", run_full_simulation()))
     
-    # Final summary
+    
     print("\n" + "="*80)
     print("TEST SUMMARY")
     print("="*80)

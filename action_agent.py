@@ -23,8 +23,8 @@ class Decision:
     action: str
     reason: str
     notification_text: str = ""
-    escalation_level: int = 0  # 0=none, 1=low, 2=med, 3=high, 4=critical
-    next_steps: list = None  # Optional: recommended next actions
+    escalation_level: int = 0  
+    next_steps: list = None 
 
     def __post_init__(self):
         if self.next_steps is None:
@@ -71,8 +71,7 @@ class ActionAgent:
         battery = sensor_data.get("battery", 100)
         hr = sensor_data.get("hr", 0)
 
-        # Rule 1: Emergency Alert (state = "emergency" or urgency >= 10)
-        # IMPROVED: Check for "emergency" state (new) in addition to urgency threshold
+       
         if state == "emergency" or urgency >= 10:
             decision = Decision(
                 action="🚨 EMERGENCY_ALERT",
@@ -84,7 +83,7 @@ class ActionAgent:
             self.decision_history.append(decision)
             return decision
 
-        # Rule 2: Do Not Disturb - Sleeping
+
         if state == "sleeping":
             decision = Decision(
                 action=ActionType.DO_NOT_DISTURB.value,
@@ -95,7 +94,7 @@ class ActionAgent:
             self.decision_history.append(decision)
             return decision
 
-        # Rule 3: Do Not Disturb - Navigating with Low Battery
+
         if state == "navigating_low_battery" or (app.lower() == "maps" and battery < 10):
             decision = Decision(
                 action=ActionType.DO_NOT_DISTURB.value,
@@ -106,7 +105,7 @@ class ActionAgent:
             self.decision_history.append(decision)
             return decision
 
-        # Rule 4: Urgent Alert (urgency >= 6 but < 10)
+
         if 6 <= urgency < 10:
             decision = Decision(
                 action=ActionType.URGENT_ALERT.value,
@@ -117,7 +116,7 @@ class ActionAgent:
             self.decision_history.append(decision)
             return decision
 
-        # Rule 5: Silent Notification (urgency 3-5)
+
         if 3 <= urgency < 6:
             decision = Decision(
                 action=ActionType.SILENT_NOTIFICATION.value,
@@ -128,7 +127,7 @@ class ActionAgent:
             self.decision_history.append(decision)
             return decision
 
-        # Rule 6: No Action (low urgency)
+
         decision = Decision(
             action=ActionType.NO_ACTION.value,
             reason=f"Low urgency ({urgency}/10). Normal operation - system silent.",

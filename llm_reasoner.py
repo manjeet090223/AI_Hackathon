@@ -17,7 +17,7 @@ import time
 class LLMResponse:
     """Structure for LLM reasoning output"""
     final_state: str
-    risk_level: str  # low, medium, high, critical
+    risk_level: str  
     explanation: str
     advice: str
     should_alert: bool
@@ -59,7 +59,7 @@ class LLMReasonerAgent:
         self.model = model
         self.call_history = []
         
-        # Import Groq client
+
         try:
             from groq import Groq
             self.client = Groq(api_key=self.api_key)
@@ -87,14 +87,14 @@ class LLMReasonerAgent:
         try:
             start_time = time.time()
             
-            # Build structured prompt
+
             prompt = self._build_prompt(sensor_data, profile)
             
-            # Call Groq LLM (using chat completion API)
+
             message = self.client.chat.completions.create(
                 model=self.model,
                 max_tokens=300,
-                temperature=0.2,  # Low temperature for consistency
+                temperature=0.2,  
                 messages=[
                     {
                         "role": "user",
@@ -103,11 +103,10 @@ class LLMReasonerAgent:
                 ]
             )
             
-            # Parse response
             response_text = message.choices[0].message.content.strip()
             llm_response = self._parse_llm_response(response_text, time.time() - start_time)
             
-            # Store in history
+            
             self.call_history.append({
                 "input": {"sensor_data": sensor_data, "profile": profile},
                 "output": llm_response.to_dict(),
@@ -181,7 +180,7 @@ RESPOND WITH ONLY VALID JSON (no markdown, no explanations):
             LLMResponse object
         """
         try:
-            # Extract JSON from response (handles markdown code blocks)
+
             if "```json" in response_text:
                 response_text = response_text.split("```json")[1].split("```")[0]
             elif "```" in response_text:
@@ -189,13 +188,12 @@ RESPOND WITH ONLY VALID JSON (no markdown, no explanations):
             
             data = json.loads(response_text.strip())
             
-            # Validate required fields
+            
             required_fields = ["final_state", "risk_level", "explanation", "advice", "should_alert"]
             for field in required_fields:
                 if field not in data:
                     raise ValueError(f"Missing required field: {field}")
             
-            # Map risk level to confidence
             risk_confidence = {
                 "low": 0.2,
                 "medium": 0.5,
@@ -216,7 +214,6 @@ RESPOND WITH ONLY VALID JSON (no markdown, no explanations):
             )
         except (json.JSONDecodeError, ValueError, KeyError, IndexError) as e:
             print(f"⚠️ Failed to parse LLM response: {e}")
-            # Return safe default
             return LLMResponse(
                 final_state="unknown",
                 risk_level="medium",
@@ -246,16 +243,14 @@ RESPOND WITH ONLY VALID JSON (no markdown, no explanations):
         state = profile.get("state", "")
         urgency = profile.get("urgency", 0)
         
-        # Use LLM for low-confidence cases
         if confidence < 0.6:
             return True
         
-        # Use LLM for ambiguous states
         ambiguous_states = ["stressed", "elevated_alert", "unknown"]
         if state in ambiguous_states:
             return True
         
-        # Use LLM for medium urgency (6-8) to validate before alerting
+        
         if 6 <= urgency < 10:
             return True
         
@@ -311,21 +306,21 @@ class HybridDecisionEngine:
         Returns:
             Complete decision output with explanations
         """
-        # Step 1: Rule-based analysis (always)
+    
         rule_profile = self.profiler.profile(sensor_data)
         rule_decision = self.action_agent.decide(sensor_data, rule_profile.to_dict())
         
-        # Step 2: Determine if LLM reasoning needed
+
         use_llm = self.llm_reasoner.should_use_llm(rule_profile.to_dict())
         
         llm_response = None
         final_decision = rule_decision
         
-        # Step 3: Call LLM if needed
+
         if use_llm:
             llm_response = self.llm_reasoner.reason(sensor_data, rule_profile.to_dict())
             
-            # Step 4: Merge decisions if LLM available
+
             if llm_response:
                 final_decision = self._merge_decisions(
                     rule_decision,
@@ -334,7 +329,7 @@ class HybridDecisionEngine:
                     sensor_data
                 )
         
-        # Step 5: Create output
+        
         output = {
             "timestamp": time.time(),
             "input": sensor_data,
@@ -350,7 +345,7 @@ class HybridDecisionEngine:
             "hybrid_reasoning": use_llm
         }
         
-        # Store in history
+
         self.decision_history.append(output)
         
         return output
@@ -370,7 +365,7 @@ class HybridDecisionEngine:
         hr = sensor_data.get("hr", 0)
         risk_level = llm_response.risk_level
         
-        # Critical emergency
+
         if risk_level == "critical":
             return Decision(
                 action="🚨 EMERGENCY_ALERT (LLM Validated)",
@@ -380,7 +375,7 @@ class HybridDecisionEngine:
                 next_steps=["Contact Emergency Services", "Alert Emergency Contacts"]
             )
         
-        # High risk warning
+
         elif risk_level == "high":
             return Decision(
                 action="🔴 URGENT_ALERT (LLM Enhanced)",
@@ -390,7 +385,7 @@ class HybridDecisionEngine:
                 next_steps=[]
             )
         
-        # Should alert but not critical
+
         elif llm_response.should_alert:
             return Decision(
                 action="🟡 NOTIFICATION (LLM Recommended)",
@@ -400,7 +395,7 @@ class HybridDecisionEngine:
                 next_steps=[]
             )
         
-        # LLM says no action needed
+
         else:
             return Decision(
                 action="✅ NO_ACTION (LLM Confirmed)",

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 """
 Quick test to find available Groq models
 """
@@ -14,7 +14,7 @@ try:
     client = Groq(api_key=os.getenv("GROQ_API_KEY"))
     print("✅ Groq client initialized\n")
     
-    # Try a simple message with different models
+
     models_to_try = [
         "gemma-7b-it",
         "mixtral-8x7b-32768",
