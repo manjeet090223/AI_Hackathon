@@ -1659,7 +1659,7 @@ const SCENARIOS = FALLBACK_SCENARIOS;
 
 async function fetchAgentData(scenarioId) {
   const now = Date.now();
-  if (now - lastAgentCall < 4000) return; // throttle live calls
+  if (now - lastAgentCall < 6000) return; // throttle live calls to 6s for API stability
   lastAgentCall = now;
 
   // Map scenario IDs to backend simulation modes
