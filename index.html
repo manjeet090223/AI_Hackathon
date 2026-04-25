@@ -1411,24 +1411,15 @@ function toggleLiveAgent() {
   }
 }
 
-async function fetchAgentData(scn) {
-  const now = Date.now();
-  // Throttle calls to once every 2 seconds to avoid overloading LLM
-  if (now - lastAgentCall < 2000) return;
-  lastAgentCall = now;
-
-  const sensorData = {
-    hr: Math.round(scn.hr + (Math.random()-0.5)*4),
-    movement: scn.accel || 0.1,
-    app: scn.app || "idle",
-    battery: scn.battery || 100
-  };
+async function fetchAgentData(scenarioId) {
+  const modeMap = { 'A': 'stress', 'B': 'emergency', 'C': 'normal' };
+  const mode = modeMap[scenarioId] || 'normal';
 
   try {
-    const response = await fetch('http://localhost:8000/analyze', {
+    const response = await fetch('http://localhost:8000/simulate_step', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(sensorData)
+      body: JSON.stringify({ mode: mode })
     });
     
     if (!response.ok) throw new Error('API Offline');
@@ -1443,38 +1434,69 @@ async function fetchAgentData(scn) {
 function updateUIFromAgent(data) {
   if (!useLiveAgent) return;
 
-  const rule = data.rule_based;
-  const llm = data.llm_enhanced;
-  const decision = data.final_decision;
+  const sensor = data.sensor_data;
+  const profile = data.profiler_output;
+  const decision = data.action_output;
+
+  // Sync frames, terminal and charts
+  frameCount++;
+  const m = document.getElementById('m-frames');
+  if (m) m.textContent = frameCount;
+
+  if (charts.hr) {
+    hrData.push(sensor.hr); hrData.shift();
+    spo2Data.push(sensor.spo2); spo2Data.shift();
+    gsrData.push(sensor.gsr); gsrData.shift();
+    tempData.push(sensor.temp); tempData.shift();
+    ['hr','spo2','gsr','temp'].forEach(k => {
+      const d = {hr:hrData,spo2:spo2Data,gsr:gsrData,temp:tempData}[k];
+      charts[k].data.datasets[0].data = [...d];
+      charts[k].update('none');
+    });
+  }
+
+  const t = document.getElementById('terminal');
+  if (t) {
+    const ts = Math.floor(Date.now()/1000);
+    const line = document.createElement('div');
+    line.className = 'term-line';
+    line.textContent = `{"ts":${ts},"hr":${sensor.hr},"spo2":${sensor.spo2},"gsr":${sensor.gsr.toFixed(2)},"temp":${sensor.temp.toFixed(1)},"accel":${sensor.accel.toFixed(2)}}`;
+    t.prepend(line);
+    while (t.children.length > 5) t.removeChild(t.lastChild);
+  }
 
   // Update State Headline
   const headline = document.getElementById('p-state');
-  if (headline) headline.textContent = rule.state.charAt(0).toUpperCase() + rule.state.slice(1);
+  if (headline) headline.textContent = profile.state_label;
 
   // Update Reasoning Box (Thinking Trace)
   const rbox = document.getElementById('p-reasoning');
   if (rbox) {
-    const trace = llm ? llm.explanation : rule.reason;
-    typewrite(rbox, trace);
+    // Stop any existing typewriter animations
+    if (typeof typewriterTimer !== 'undefined' && typewriterTimer) {
+      clearInterval(typewriterTimer);
+    }
+    // Update instantly to handle fast 900ms tick rate
+    rbox.innerHTML = profile.reasoning.join('<br>') + '<span class="reasoning-cursor"></span>';
   }
 
   // Update Action Decision
   const decEl = document.getElementById('a-decision');
-  if (decEl) decEl.textContent = decision.action;
+  if (decEl) decEl.textContent = decision.action_type.toUpperCase().replace('_', ' ');
 
   // Update Action Badge
   const badge = document.getElementById('a-badge');
   if (badge) {
-    const isSuppress = decision.action.includes('SUPPRESS') || decision.action.includes('SILENT');
-    badge.textContent = isSuppress ? 'SUPPRESS' : 'INTERRUPT';
+    const isSuppress = decision.decision === "SUPPRESS";
+    badge.textContent = decision.decision;
     badge.className = 'decision-badge ' + (isSuppress ? 'suppress' : 'interrupt');
   }
 
   // Update Action Steps
   const stepsEl = document.getElementById('a-steps');
-  if (stepsEl && decision.next_steps) {
+  if (stepsEl && decision.reasoning_steps) {
     stepsEl.innerHTML = '';
-    decision.next_steps.forEach((s, i) => {
+    decision.reasoning_steps.forEach((s, i) => {
       const row = document.createElement('div');
       row.className = 'r-step visible';
       row.innerHTML = `<div class="r-step-dot">${i+1}</div><div>${s}</div>`;
@@ -1483,12 +1505,29 @@ function updateUIFromAgent(data) {
   }
 
   // Update Bars
-  setBar('p-conf-bar', 'p-conf-val', rule.confidence * 100, Math.round(rule.confidence * 100) + '%');
-  
-  // Latency
-  const latency = llm ? Math.round(llm.reasoning_time * 1000) : 150;
+  setBar('p-conf-bar', 'p-conf-val', profile.confidence * 100, Math.round(profile.confidence * 100) + '%');
+  setBar('a-urgency-bar', 'a-urgency-val', decision.urgency * 100, decision.urgency.toFixed(2));
+
+  // Override Flag
+  const overrideEl = document.getElementById('a-override');
+  if (overrideEl) {
+     if (decision.override_flag !== "NONE") {
+         overrideEl.className = "override-flag visible";
+         if (decision.override_flag.includes("SOCIAL")) overrideEl.classList.add("social");
+         else if (decision.override_flag.includes("NAV")) overrideEl.classList.add("nav");
+         else if (decision.override_flag.includes("EMERGENCY")) overrideEl.classList.add("emergency");
+         overrideEl.textContent = decision.override_flag;
+     } else {
+         overrideEl.className = "override-flag none";
+     }
+  }
+
+  // Live values
+  const hrVals = document.querySelectorAll('.watch-hr');
+  hrVals.forEach(el => el.textContent = Math.round(sensor.hr));
+
   const latEl = document.getElementById('p-latency');
-  if (latEl) latEl.textContent = latency + 'ms';
+  if (latEl) latEl.textContent = 'local ms';
 }
 
 // ══════════════════════════════════════════
@@ -1496,15 +1535,17 @@ function updateUIFromAgent(data) {
 // ══════════════════════════════════════════
 setInterval(() => {
   const scn = SCENARIOS[currentScenario];
-  pushTerminal(scn);
-  updateCharts(scn);
-  frameCount++;
-  const m = document.getElementById('m-frames');
-  if (m) m.textContent = frameCount;
-
-  // If live agent is on, occasionally sync with backend
+  
   if (useLiveAgent) {
-    fetchAgentData(scn);
+    // Rely completely on backend simulation frame
+    fetchAgentData(currentScenario);
+  } else {
+    // Use frontend static mockup generator
+    pushTerminal(scn);
+    updateCharts(scn);
+    frameCount++;
+    const m = document.getElementById('m-frames');
+    if (m) m.textContent = frameCount;
   }
 }, 900);
 
