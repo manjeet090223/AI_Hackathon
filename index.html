@@ -1177,33 +1177,34 @@ function useFallback(id) {
   });
 }
 
-function callAgentAPI(scenarioId) {
-  console.log("Calling backend...");
+async function callAgentAPI(scenarioId) {
+  console.log("🚀 Calling backend...");
   setLoadingState(true);
-  fetch("https://ai-hackathon-ohfp.onrender.com/agent_simulate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      scenario: scenarioId
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    console.log("Response:", data);
+
+  try {
+    const res = await fetch("https://ai-hackathon-ohfp.onrender.com/agent_simulate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        scenario: scenarioId
+      })
+    });
+
+    const data = await res.json();
+    console.log("✅ API Response:", data);
     updateUI(data);
-  })
-  .catch(err => {
-    console.error("API Error:", err);
-    useFallback(scenarioId); // fallback safety
-  })
-  .finally(() => {
+  } catch (err) {
+    console.error("❌ API ERROR:", err);
+    useFallback(scenarioId);
+  } finally {
     setLoadingState(false);
-  });
+  }
 }
 
 function loadScenario(id) {
+  console.log("Scenario selected:", id);
   currentScenario = id;
   cancelAllTimers();
   
@@ -1214,9 +1215,9 @@ function loadScenario(id) {
   document.getElementById('scn-'+id)?.classList.add('active-scn');
   
   if (useLiveAgent) {
-      callAgentAPI(id);
+    callAgentAPI(id);   // 🔥 REAL BACKEND CALL
   } else {
-      useFallback(id);
+    useFallback(id);    // fallback mode
   }
 }
 
@@ -1647,6 +1648,7 @@ let lastLiveWatchState = 'normal';
 
 function toggleLiveAgent() {
   useLiveAgent = !useLiveAgent;
+  console.log("Live agent mode:", useLiveAgent);
   const btn = document.getElementById('live-agent-toggle');
   if (useLiveAgent) {
     btn.classList.add('active');

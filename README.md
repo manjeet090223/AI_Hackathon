@@ -1,43 +1,61 @@
-# ◈ CONTEXT IQ — Wearable AI Context Engine
+# ◈ Watch Brain — Wearable AI Intelligence Engine
 
-Context IQ is a premium, agent-powered wearable dashboard designed for high-stakes focus and health monitoring. It uses a multi-agent system to distinguish between high-stress situations that require intervention and focused states where interruptions must be suppressed.
+Watch Brain is a state-of-the-art wearable AI context engine designed to minimize digital interruptions while ensuring user safety. By analyzing real-time sensor data (Heart Rate, SpO2, GSR, Accelerometer), it determines the user's current activity and social context to intelligently suppress notifications or trigger emergency protocols.
 
-## 🚀 Features
+## Features
 
-- **Multi-Brain Architecture**: Powered by Profiler and Action agents via the Groq API.
-- **Cost-Benefit Reasoning**: Only interrupts the user when the benefit exceeds the social and situational cost.
-- **Premium Dashboard**: Three distinct views (User, Advanced, Watch) with real-time telemetry and health diagnostics.
-- **Meditation Paradox Handling**: Recognizes intentional states like meditation (high HR, low movement) to suppress false alerts.
+- **Dual-Agent Architecture**: 
+  - **Profiler Agent**: Analyzes multi-modal sensor telemetry to determine high-level state (Working, Meditating, Exercising).
+  - **Action Agent**: Makes executive decisions (SUPPRESS, GENTLE_NOTIFY, EMERGENCY) based on context and interruption cost.
+- **Ultra-Fast Inference**: Powered by **Groq (Llama 3.1)** for near-instant reasoning.
+- **Dynamic Watch UI**: A dedicated "Watch View" that simulates the wearable device's behavior.
+- **Polite Notifications**: AI-driven advisory messages that feel like a companion rather than an alert.
+- **Robust Reliability**: Seamless fallback to local scenarios when connectivity is limited.
 
-## 🛠 Setup
+## Tech Stack
 
-1. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+- **Frontend**: Vanilla JS, HTML5, CSS3 (Modern Aesthetics)
+- **Backend**: FastAPI (Python)
+- **AI Brain**: Groq Cloud SDK (Llama 3.1 8B/70B)
+- **Data Simulation**: Real-time sensor telemetry generator
 
-2. **Configure Environment**:
-   - Copy `.env.example` to `.env`.
-   - Add your `GROQ_API_KEY`.
+## Installation & Setup
 
-3. **Run the Backend**:
-   ```bash
-   python api_server.py
-   ```
-
-4. **Launch the Frontend**:
-   - Open `index.html` in your browser.
-
-## 🧪 Testing
-
-Run the system test to verify agent logic and API connectivity:
+### 1. Clone the Repository
 ```bash
-python test_system.py
+git clone https://github.com/manjeet090223/AI_Hackathon.git
+cd AI_Hackathon
 ```
 
-## 🧠 System Scenarios
+### 2. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
 
-- **Scenario A (Silent Guardian)**: High HR during a presentation. The agent suppresses notifications.
-- **Scenario B (Emergency Catch)**: High HR while sleeping/still at 2 AM. The agent triggers an emergency alert.
-- **Scenario C (Battery Dilemma)**: Low battery during navigation. The agent prioritizes maps over non-critical alerts.
-- **Scenario D (Meditation Paradox)**: High HR during meditation. The agent suppresses alerts to protect the user's flow state.
+### 3. Environment Variables
+Create a `.env` file in the root directory:
+```env
+GROQ_API_KEY=your_groq_api_key_here
+```
+
+### 4. Run the Backend
+```bash
+python api_server.py
+```
+
+### 5. Launch the Dashboard
+Simply open `index.html` in your browser or serve it using a local server.
+
+##  System Architecture
+
+The engine operates on a feedback loop:
+1. **Telemetry**: Raw sensor data is streamed from the wearable.
+2. **Contextualization**: The **Profiler Agent** builds a situational map (Stress levels, Physical movement, Social context).
+3. **Decisioning**: The **Action Agent** evaluates the "Interruption Cost" vs the "Notification Urgency".
+4. **Execution**: The UI reflects the AI's choice via silent logging or polite advisory notifications.
+
+##  Security & Privacy
+Watch Brain processes sensor data locally or via encrypted API calls. In a production environment, all biometric data is anonymized before reaching the LLM layer.
+
+##  License
+This project is licensed under the MIT License.
