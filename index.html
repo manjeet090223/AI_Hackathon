@@ -352,30 +352,30 @@
   .agent-title { font-family: var(--display); font-size: 14px; font-weight: 700; letter-spacing: 1px; }
   .latency-badge { font-family: var(--mono); font-size: 10px; color: var(--muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
 
-  .state-headline { font-family: var(--display); font-size: 28px; font-weight: 800; margin-bottom: 20px; color: var(--text); }
+  .state-headline { font-family: var(--display); font-size: 34px; font-weight: 800; margin-bottom: 20px; color: var(--text); }
   
   .bar-row { margin-bottom: 16px; }
-  .bar-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; color: var(--muted); }
-  .bar-track { height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--muted); }
+  .bar-track { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
   .bar-fill { height: 100%; background: var(--state-color); box-shadow: 0 0 10px var(--state-color); transition: width 1s ease, background 1s ease; }
   
   .reasoning-box {
-    background: rgba(0,0,0,0.3); border-radius: 12px; padding: 16px;
-    font-family: var(--mono); font-size: 12px; line-height: 1.6; color: var(--muted);
-    height: 120px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05);
+    background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px;
+    font-family: var(--mono); font-size: 14px; line-height: 1.7; color: var(--text);
+    height: 140px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05);
   }
-  .reasoning-cursor { display: inline-block; width: 6px; height: 14px; background: var(--state-color); vertical-align: middle; margin-left: 2px; animation: blink 1s infinite; }
+  .reasoning-cursor { display: inline-block; width: 8px; height: 16px; background: var(--state-color); vertical-align: middle; margin-left: 2px; animation: blink 1s infinite; }
 
-  .action-decision { font-family: var(--display); font-size: 32px; font-weight: 900; margin-bottom: 20px; letter-spacing: -1px; }
-  .urgency-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-  .urgency-label { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
-  .urgency-track { flex: 1; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+  .action-decision { font-family: var(--display); font-size: 28px; font-weight: 800; margin-bottom: 20px; letter-spacing: 0.5px; line-height: 1.2; text-transform: uppercase; }
+  .urgency-row { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .urgency-label { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 1.5px; }
+  .urgency-track { flex: 1; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
   .urgency-fill { height: 100%; background: var(--state-color); transition: width 0.8s ease; }
-  .urgency-val { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--text); }
+  .urgency-val { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); }
 
-  .r-step { display: flex; gap: 12px; margin-bottom: 10px; font-size: 12px; color: var(--muted); opacity: 0; transform: translateY(5px); transition: all 0.5s ease; }
+  .r-step { display: flex; gap: 18px; margin-bottom: 24px; font-size: 22px; color: var(--text); opacity: 0; transform: translateY(5px); transition: all 0.5s ease; line-height: 1.6; font-weight: 400; }
   .r-step.visible { opacity: 1; transform: translateY(0); }
-  .r-step-dot { width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--text); flex-shrink: 0; }
+  .r-step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--state-color); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; color: #000; flex-shrink: 0; box-shadow: 0 0 20px var(--state-glow); }
   
   .override-flag {
     display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 800;
