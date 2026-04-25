@@ -4,7 +4,10 @@ Quick test to find available Groq models
 """
 
 import os
-os.environ['GROQ_API_KEY'] = 'REMOVED'
+
+api_key = os.getenv("GROQ_API_KEY", "")
+if not api_key:
+    print("WARNING: No API key, falling back to rule-based mode")
 
 print("Testing Groq API with available models...\n")
 

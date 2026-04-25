@@ -8,8 +8,9 @@ import sys
 import json
 from typing import Dict, Any
 
-
-os.environ['GROQ_API_KEY'] = 'REMOVED'
+api_key = os.getenv("GROQ_API_KEY", "")
+if not api_key:
+    print("WARNING: No API key, falling back to rule-based mode")
 
 def test_groq_connection():
     """Test basic Groq connection."""
@@ -24,7 +25,7 @@ def test_groq_connection():
         print("✅ Groq client initialized")
         
 
-        message = client.messages.create(
+        message = client.chat.completions.create(
             model="llama-3.1-70b-versatile",
             max_tokens=50,
             temperature=0.2,
@@ -33,7 +34,7 @@ def test_groq_connection():
             ]
         )
         
-        response = message.content[0].text
+        response = message.choices[0].message.content.strip()
         print(f"✅ LLM Response: {response[:100]}")
         print("✅ Groq API Connection Successful!")
         return True

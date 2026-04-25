@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>◈ CONTEXT IQ — Wearable AI Context Engine</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
   :root {
@@ -26,9 +25,9 @@
     --text:       #F0EFF8;
     --muted:      rgba(240,239,248,0.38);
     --muted2:     rgba(240,239,248,0.60);
-    --mono:       'Space Mono', monospace;
-    --sans:       'DM Sans', sans-serif;
-    --display:    'Syne', sans-serif;
+    --mono:       'Courier New', monospace;
+    --sans:       -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --display:    Georgia, serif;
     --state-color: var(--normal);
     --state-glow:  var(--normal-g);
   }
@@ -102,6 +101,18 @@
   ════════════════════════════════════════ */
   #tab-user { padding: 60px 20px; min-height: calc(100vh - 56px); display: none; flex-direction: column; align-items: center; justify-content: center; }
   #tab-user.active { display: flex; }
+
+  .user-stats-strip {
+    display: flex; gap: 12px; width: 100%; max-width: 420px; margin-top: 16px;
+  }
+  .stat-card {
+    flex: 1; background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 12px; text-align: center;
+  }
+  .stat-label { font-size: 8px; font-family: var(--mono); color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+  .stat-val { font-size: 18px; font-weight: 700; font-family: var(--mono); }
+  .stat-val.purple { color: var(--suppress); }
+  .stat-val.red { color: var(--emergency); }
 
   .user-card {
     width: 100%; max-width: 420px;
@@ -324,6 +335,53 @@
     letter-spacing: 1.5px; text-transform: uppercase; margin-top: 10px;
     transition: all 0.6s ease;
   }
+  .col-gap { display: flex; flex-direction: column; gap: 20px; }
+  .adv-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 16px; padding: 24px; position: relative;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  }
+  .adv-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; }
+  .live-badge { color: var(--suppress); font-size: 10px; margin-left: 8px; }
+
+  .spark-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .spark-label { font-family: var(--mono); font-size: 11px; width: 60px; color: var(--muted); }
+  .spark-wrap { flex: 1; height: 30px; }
+
+  .agent-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .agent-title { font-family: var(--display); font-size: 14px; font-weight: 700; letter-spacing: 1px; }
+  .latency-badge { font-family: var(--mono); font-size: 10px; color: var(--muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
+
+  .state-headline { font-family: var(--display); font-size: 28px; font-weight: 800; margin-bottom: 20px; color: var(--text); }
+  
+  .bar-row { margin-bottom: 16px; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; color: var(--muted); }
+  .bar-track { height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--state-color); box-shadow: 0 0 10px var(--state-color); transition: width 1s ease, background 1s ease; }
+  
+  .reasoning-box {
+    background: rgba(0,0,0,0.3); border-radius: 12px; padding: 16px;
+    font-family: var(--mono); font-size: 12px; line-height: 1.6; color: var(--muted);
+    height: 120px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05);
+  }
+  .reasoning-cursor { display: inline-block; width: 6px; height: 14px; background: var(--state-color); vertical-align: middle; margin-left: 2px; animation: blink 1s infinite; }
+
+  .action-decision { font-family: var(--display); font-size: 32px; font-weight: 900; margin-bottom: 20px; letter-spacing: -1px; }
+  .urgency-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .urgency-label { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
+  .urgency-track { flex: 1; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+  .urgency-fill { height: 100%; background: var(--state-color); transition: width 0.8s ease; }
+  .urgency-val { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--text); }
+
+  .r-step { display: flex; gap: 12px; margin-bottom: 10px; font-size: 12px; color: var(--muted); opacity: 0; transform: translateY(5px); transition: all 0.5s ease; }
+  .r-step.visible { opacity: 1; transform: translateY(0); }
+  .r-step-dot { width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--text); flex-shrink: 0; }
+  
+  .override-flag {
+    display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 800;
+    margin-top: 15px; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .override-flag.none { background: rgba(255,255,255,0.05); color: var(--muted); }
   .override-flag.social { background: rgba(139,92,246,0.15); color: var(--suppress); border: 1px solid rgba(139,92,246,0.3); }
   .override-flag.nav { background: rgba(0,196,140,0.1); color: var(--normal); border: 1px solid rgba(0,196,140,0.25); }
   .override-flag.emergency { background: rgba(239,68,68,0.15); color: var(--emergency); border: 1px solid rgba(239,68,68,0.3); }
@@ -620,8 +678,8 @@
     <button class="tab-btn" data-tab="watch" onclick="switchTab('watch')">⌚ Watch</button>
   </div>
   <div class="nav-state">
-    <div class="state-dot" id="nav-dot"></div>
-    <span id="nav-label">NORMAL</span>
+    <div class="state-dot" id="nav-dot" style="background: #fbbf24; box-shadow: 0 0 8px #fbbf24;"></div>
+    <span id="nav-label">SERVER OFFLINE</span>
   </div>
 </nav>
 
@@ -642,6 +700,20 @@
     <div class="user-btns">
       <button class="user-btn" onclick="handleImFine()">✓ I'm Fine</button>
       <button class="user-btn primary" id="help-btn" onclick="handleGetHelp()">Get Help 🆘</button>
+    </div>
+  </div>
+  <div class="user-stats-strip">
+    <div class="stat-card">
+      <div class="stat-label">Alerts Suppressed</div>
+      <div class="stat-val purple" id="user-stat-suppressed">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Real Alerts Fired</div>
+      <div class="stat-val red" id="user-stat-alerted">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Interruptions Avoided</div>
+      <div class="stat-val purple" id="user-stat-rate">0%</div>
     </div>
   </div>
 </div>
@@ -719,12 +791,16 @@
           <div class="scn-btn-title">🔋 Scenario C — Battery Dilemma</div>
           <div class="scn-btn-sub">HR: 79 · Nav active · 5% bat · SILENT</div>
         </div>
+        <div class="scn-btn" onclick="loadScenario('D')" id="scn-D">
+          <div class="scn-btn-title">🧘 Scenario D — Meditation Paradox</div>
+          <div class="scn-btn-sub">HR: 115 · Bead counter · SUPPRESS</div>
+        </div>
       </div>
       
       <div class="divider"></div>
       <div class="adv-label">AGENT MODE</div>
       <button class="live-toggle-btn" id="live-agent-toggle" onclick="toggleLiveAgent()">
-        <span id="agent-icon">⚡</span> <span id="agent-text">USE LOCAL SIMULATION</span>
+        <span id="agent-icon">▶</span> <span id="agent-text">RUN THROUGH AGENTS</span>
       </button>
     </div>
 
@@ -776,11 +852,12 @@
 ══════════════════════════════════ -->
 <div id="tab-watch" class="tab-panel">
   <div class="watch-stage">
-    <div class="watch-scenarios">
-      <div class="watch-scn-pill active" onclick="loadScenario('A');setWatchPill(this)">A</div>
-      <div class="watch-scn-pill" onclick="loadScenario('B');setWatchPill(this)">B</div>
-      <div class="watch-scn-pill" onclick="loadScenario('C');setWatchPill(this)">C</div>
-    </div>
+      <div class="watch-scenarios">
+        <div class="watch-scn-pill active" onclick="loadScenario('A');setWatchPill(this)">A</div>
+        <div class="watch-scn-pill" onclick="loadScenario('B');setWatchPill(this)">B</div>
+        <div class="watch-scn-pill" onclick="loadScenario('C');setWatchPill(this)">C</div>
+        <div class="watch-scn-pill" onclick="loadScenario('D');setWatchPill(this)">D</div>
+      </div>
 
     <div class="watch-shell" id="watch-shell">
       <div class="watch-crown"></div>
@@ -847,75 +924,49 @@
 // ══════════════════════════════════════════
 //  SCENARIOS DATA
 // ══════════════════════════════════════════
-const SCENARIOS = {
+// ══════════════════════════════════════════
+//  FALLBACK SCENARIOS (used if server offline)
+// ══════════════════════════════════════════
+const FALLBACK_SCENARIOS = {
   A: {
     name: 'Silent Guardian',
-    label: 'High-Stakes Interview',
-    hr: 108, spo2: 97, gsr: 0.72, temp: 37.2, accel: 0.01, battery: 67,
-    app: 'Interview @ Google', gps: 'static', time: '14:31',
-    state: 'suppress',
-    profiler: {
-      state: 'High-Stakes Interview',
-      conf: 88, social: 95, cost: 98,
-      reasoning: '→ HR elevated (108) but stable\n→ Accelerometer near zero (sitting)\n→ Calendar: \'Interview @ Google\'\n→ GPS cluster: office building\n→ Conclusion: Situational anxiety'
-    },
-    action: {
-      decision: 'SILENT GUARD', badge: 'SUPPRESS', badgeClass: 'suppress',
-      urgency: 0.20,
-      steps: ['Social risk = CRITICAL', 'Interruption cost too high', 'No life-threatening markers', 'Monitoring HR silently'],
-      override: 'SOCIAL CONTEXT OVERRIDE', overrideClass: 'social',
-      color: 'var(--suppress)'
-    },
-    radar: [0.72, 0.95, 0.6, 0.7, 0.5, 0.12],
-    radarColor: 'rgba(139,92,246,0.15)', radarStroke: 'rgba(139,92,246,0.6)',
-    watchStatus: 'Watching quietly', watchNotif: false,
-    watchEye: true
+    sensor_data: { hr: 108, spo2: 97, gsr: 0.72, temp: 37.2, accel: 0.01, battery: 67, app: 'work', time: '14:31' },
+    profiler_output: {
+      state_headline: 'High-Stakes Work Focus',
+      confidence_pct: 88, social_risk_pct: 95, interruption_cost_pct: 98,
+      reasoning_trace: ['→ HR elevated (108) but stable', '→ Accelerometer near zero (sitting)', '→ App: work', '→ Conclusion: Situational focus'],
+      action_badge: 'SUPPRESS', urgency_score: 0.20, override_flag: 'SOCIAL CONTEXT OVERRIDE'
+    }
   },
   B: {
     name: 'Emergency Catch',
-    label: 'Anomalous Cardiac Event',
-    hr: 131, spo2: 94, gsr: 0.91, temp: 38.9, accel: 0.02, battery: 34,
-    app: 'none', gps: 'home', time: '02:17',
-    state: 'emergency',
-    profiler: {
-      state: 'Anomalous Cardiac Event',
-      conf: 96, social: 8, cost: 5,
-      reasoning: '→ HR spike: 131 BPM (critical)\n→ Accel: 0.02 — completely still\n→ SpO₂: 94% — below threshold\n→ Skin temp: 38.9°C elevated\n→ Time: 02:17 — sleeping hours'
-    },
-    action: {
-      decision: 'EMERGENCY CALL', badge: 'INTERRUPT', badgeClass: 'interrupt',
-      urgency: 0.96,
-      steps: ['HR + stillness = cardiac event', 'SpO₂ below safe threshold', 'Temp elevated — systemic', 'Emergency protocol triggered'],
-      override: 'EMERGENCY PROTOCOL', overrideClass: 'emergency',
-      color: 'var(--emergency)'
-    },
-    radar: [0.97, 0.08, 0.3, 0.65, 0.95, 0.05],
-    radarColor: 'rgba(239,68,68,0.12)', radarStroke: 'rgba(239,68,68,0.6)',
-    watchStatus: 'EMERGENCY', watchNotif: false,
-    watchEye: false
+    sensor_data: { hr: 131, spo2: 94, gsr: 0.91, temp: 38.9, accel: 0.02, battery: 34, app: 'sleep', time: '02:17' },
+    profiler_output: {
+      state_headline: 'Potential Cardiac Event',
+      confidence_pct: 96, social_risk_pct: 8, interruption_cost_pct: 5,
+      reasoning_trace: ['→ HR spike: 131 BPM (critical)', '→ Accel: 0.02 — completely still', '→ SpO2: 94% — below threshold', '→ Time: 02:17 — sleeping hours'],
+      action_badge: 'INTERRUPT', urgency_score: 0.96, override_flag: 'EMERGENCY PROTOCOL'
+    }
   },
   C: {
     name: 'Battery Dilemma',
-    label: 'Navigation Override',
-    hr: 79, spo2: 98, gsr: 0.31, temp: 36.6, accel: 0.85, battery: 5,
-    app: 'Maps: Navigation', gps: 'moving — unfamiliar city', time: '18:45',
-    state: 'normal',
-    profiler: {
-      state: 'Active Navigation — Unfamiliar City',
-      conf: 91, social: 25, cost: 78,
-      reasoning: '→ Battery: 5% (critical low)\n→ Maps active — navigating\n→ GPS: moving, unknown area\n→ HR normal — no health risk\n→ Interrupting = user gets lost'
-    },
-    action: {
-      decision: 'STAY SILENT', badge: 'SUPPRESS', badgeClass: 'suppress',
-      urgency: 0.10,
-      steps: ['Battery critical but user navigating', 'Interruption risk > battery risk', 'No health emergency detected', 'Suppress battery warning'],
-      override: 'NAVIGATION OVERRIDE', overrideClass: 'nav',
-      color: 'var(--normal)'
-    },
-    radar: [0.25, 0.25, 0.85, 0.05, 0.4, 0.88],
-    radarColor: 'rgba(0,196,140,0.1)', radarStroke: 'rgba(0,196,140,0.5)',
-    watchStatus: 'Normal', watchNotif: false,
-    watchEye: false
+    sensor_data: { hr: 79, spo2: 98, gsr: 0.31, temp: 36.6, accel: 0.85, battery: 5, app: 'maps', time: '18:45' },
+    profiler_output: {
+      state_headline: 'Active Navigation',
+      confidence_pct: 91, social_risk_pct: 25, interruption_cost_pct: 78,
+      reasoning_trace: ['→ Battery: 5% (critical low)', '→ Maps active — navigating', '→ HR normal — no health risk', '→ Interrupting = user gets lost'],
+      action_badge: 'SUPPRESS', urgency_score: 0.10, override_flag: 'NAVIGATION OVERRIDE'
+    }
+  },
+  D: {
+    name: 'Meditation Paradox',
+    sensor_data: { hr: 118, spo2: 99, gsr: 0.15, temp: 36.4, accel: 0.01, battery: 82, app: 'bead_counter', time: '06:15' },
+    profiler_output: {
+      state_headline: 'Intentional Meditation',
+      confidence_pct: 99, social_risk_pct: 100, interruption_cost_pct: 100,
+      reasoning_trace: ['→ HR elevated (118) from breathwork', '→ Accel: 0.01 — completely still', '→ App: bead_counter detected', '→ Conclusion: Social suppression active'],
+      action_badge: 'SUPPRESS', urgency_score: 0.0, override_flag: 'MEDITATION OVERRIDE'
+    }
   }
 };
 
@@ -1052,131 +1103,206 @@ function typewrite(el, text, speed=28) {
 // ══════════════════════════════════════════
 //  LOAD SCENARIO
 // ══════════════════════════════════════════
-function loadScenario(id) {
+// ══════════════════════════════════════════
+//  LOAD SCENARIO
+// ══════════════════════════════════════════
+async function loadScenario(id) {
   currentScenario = id;
-  const scn = SCENARIOS[id];
-  currentState = scn.state;
-
-  // Cancel any active timers
   cancelAllTimers();
-
-  // CSS state vars
-  const colors = { normal:'var(--normal)', suppress:'var(--suppress)', stress:'var(--stress)', emergency:'var(--emergency)' };
-  const glows  = { normal:'var(--normal-g)', suppress:'var(--suppress-g)', stress:'var(--stress-g)', emergency:'var(--emergency-g)' };
-  const col = colors[currentState] || colors.normal;
-  const glow = glows[currentState] || glows.normal;
-  document.documentElement.style.setProperty('--state-color', col);
-  document.documentElement.style.setProperty('--state-glow', glow);
-
-  // Nav
-  document.getElementById('nav-label').textContent = scn.action.badge;
-
-  // Scenario btn highlights
-  ['A','B','C'].forEach(s => {
+  
+  // Highlight buttons
+  ['A','B','C','D'].forEach(s => {
     document.getElementById('scn-'+s)?.classList.remove('active-scn');
   });
   document.getElementById('scn-'+id)?.classList.add('active-scn');
-
-  // Update profiler panel
-  updateProfilerPanel(scn);
-
-  // Update action panel
-  updateActionPanel(scn);
-
-  // Radar
-  updateRadar(scn);
-
-  // Metrics
-  if (scn.action.badge === 'SUPPRESS') suppressCount++;
-  else interruptCount++;
-  frameCount++;
-  updateMetrics();
-  addHistory(scn, id);
-
-  // User view
-  updateUserView(scn);
-
-  // Watch
-  updateWatchView(scn);
-
-  // Sound
-  if (currentState === 'emergency') playSound('emergency');
-  else if (currentState === 'stress') playSound('stress');
-  else if (currentState === 'suppress') playSound('suppress');
-}
-
-function updateProfilerPanel(scn) {
-  const p = scn.profiler;
-  const el = document.getElementById('p-state');
-  if (el) el.textContent = p.state;
-  setBar('p-conf-bar', 'p-conf-val', p.conf, p.conf+'%');
-  setBar('p-social-bar', 'p-social-val', p.social, p.social > 70 ? 'CRITICAL' : p.social > 40 ? 'HIGH' : 'LOW');
-  setBar('p-cost-bar', 'p-cost-val', p.cost, p.cost > 80 ? 'CRITICAL' : p.cost > 50 ? 'HIGH' : 'LOW');
-  setLatency('p-latency', 180, 350);
-  const rbox = document.getElementById('p-reasoning');
-  if (rbox) setTimeout(() => typewrite(rbox, p.reasoning), 200);
-}
-
-function updateActionPanel(scn) {
-  const a = scn.action;
-  const dec = document.getElementById('a-decision');
-  if (dec) { dec.textContent = a.decision; dec.style.color = a.color; }
-  const badge = document.getElementById('a-badge');
-  if (badge) { badge.textContent = a.badge; badge.className = 'decision-badge ' + a.badgeClass; }
-  const ubar = document.getElementById('a-urgency-bar');
-  const uval = document.getElementById('a-urgency-val');
-  if (ubar) ubar.style.width = (a.urgency*100)+'%';
-  if (uval) uval.textContent = a.urgency.toFixed(2);
-  // Steps
-  const stepsEl = document.getElementById('a-steps');
-  if (stepsEl) {
-    stepsEl.innerHTML = '';
-    a.steps.forEach((s, i) => {
-      const row = document.createElement('div');
-      row.className = 'r-step';
-      row.innerHTML = `<div class="r-step-dot">${i+1}</div><div>${s}</div>`;
-      stepsEl.appendChild(row);
-      setTimeout(() => row.classList.add('visible'), i * 300 + 400);
+  
+  setLoadingState(true);
+  
+  try {
+    const response = await fetch('http://localhost:8000/agent_simulate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ scenario: id })
     });
+    
+    if (!response.ok) throw new Error('Offline');
+    const data = await response.json();
+    
+    if (data.error) throw new Error(data.error);
+    
+    updateAllPanelsFromAgent(data);
+    
+  } catch (err) {
+    console.warn("Using fallback data:", err);
+    const mock = FALLBACK_SCENARIOS[id];
+    updateAllPanelsFromAgent({
+      sensor_data: mock.sensor_data,
+      profiler_output: mock.profiler_output,
+      action_output: {
+        decision: mock.profiler_output.action_badge,
+        action_type: mock.profiler_output.action_badge === 'SUPPRESS' ? 'SILENT_MONITOR' : 'URGENT_NOTIFY',
+        urgency: mock.profiler_output.urgency_score,
+        override_flag: mock.profiler_output.override_flag,
+        reasoning_steps: mock.profiler_output.reasoning_trace
+      }
+    });
+  } finally {
+    setLoadingState(false);
   }
-  const ovr = document.getElementById('a-override');
-  if (ovr) {
-    if (a.override) {
-      ovr.textContent = a.override;
-      ovr.className = 'override-flag ' + a.overrideClass;
-    } else { ovr.className = 'override-flag none'; }
+}
+
+function setLoadingState(loading) {
+  const btn = document.getElementById('live-agent-toggle');
+  if (loading) {
+    btn.innerHTML = '<span class="reasoning-cursor"></span> THINKING...';
+    btn.style.opacity = '0.7';
+  } else {
+    btn.innerHTML = '<span id="agent-icon">▶</span> <span id="agent-text">RUN THROUGH AGENTS</span>';
+    btn.style.opacity = '1';
   }
-  setLatency('a-latency', 80, 200);
 }
 
-function setBar(barId, valId, pct, label) {
-  const bar = document.getElementById(barId);
-  const val = document.getElementById(valId);
-  if (bar) bar.style.width = pct + '%';
-  if (val) val.textContent = label;
+function updateAllPanelsFromAgent(data) {
+  if (!data || data.error) {
+    console.error("Agent data error:", data?.error);
+    return;
+  }
+  
+  try {
+    const sensor = data.sensor_data;
+    const profiler = data.profiler_output;
+    const action = data.action_output;
+    
+    if (!profiler || !action) {
+      console.warn("Incomplete agent data:", data);
+      return;
+    }
+
+    currentState = action.decision.toLowerCase();
+    if (currentState === 'interrupt') currentState = 'emergency';
+    if (currentState === 'notify') currentState = 'stress';
+
+    // CSS State
+    const colors = { normal:'var(--normal)', suppress:'var(--suppress)', stress:'var(--stress)', emergency:'var(--emergency)' };
+    const glows  = { normal:'var(--normal-g)', suppress:'var(--suppress-g)', stress:'var(--stress-g)', emergency:'var(--emergency-g)' };
+    document.documentElement.style.setProperty('--state-color', colors[currentState] || colors.normal);
+    document.documentElement.style.setProperty('--state-glow', glows[currentState] || glows.normal);
+
+    // Nav
+    const navLabel = document.getElementById('nav-label');
+    if (navLabel) navLabel.textContent = action.decision;
+
+    // Profiler Panel
+    const pState = document.getElementById('p-state');
+    if (pState) pState.textContent = profiler.state_headline || 'Processing...';
+    
+    setBar('p-conf-bar', 'p-conf-val', profiler.confidence_pct, (profiler.confidence_pct || 0) + '%');
+    setBar('p-social-bar', 'p-social-val', profiler.social_risk_pct, profiler.social_risk_pct > 70 ? 'CRITICAL' : 'LOW');
+    setBar('p-cost-bar', 'p-cost-val', profiler.interruption_cost_pct, profiler.interruption_cost_pct > 70 ? 'CRITICAL' : 'LOW');
+    
+    const pLat = document.getElementById('p-latency');
+    if (pLat) pLat.textContent = profiler.latency || 'agent ms';
+    
+    const rbox = document.getElementById('p-reasoning');
+    if (rbox) typewrite(rbox, (profiler.reasoning_trace || []).join('\n'));
+
+    // Action Panel
+    const decEl = document.getElementById('a-decision');
+    if (decEl) {
+      decEl.textContent = profiler.action_decision || action.decision;
+      decEl.style.color = colors[currentState];
+    }
+    
+    const badge = document.getElementById('a-badge');
+    if (badge) {
+      badge.textContent = action.decision;
+      badge.className = 'decision-badge ' + currentState;
+    }
+    
+    setBar('a-urgency-bar', 'a-urgency-val', (action.urgency || 0) * 100, (action.urgency || 0).toFixed(2));
+    
+    const stepsEl = document.getElementById('a-steps');
+    if (stepsEl) {
+      stepsEl.innerHTML = '';
+      (action.reasoning_steps || []).forEach((s, i) => {
+        const row = document.createElement('div');
+        row.className = 'r-step visible';
+        row.innerHTML = `<div class="r-step-dot">${i+1}</div><div>${s}</div>`;
+        stepsEl.appendChild(row);
+      });
+    }
+    
+    const ovr = document.getElementById('a-override');
+    if (ovr) {
+      if (action.override_flag && action.override_flag !== 'NONE') {
+        ovr.textContent = action.override_flag;
+        ovr.className = 'override-flag ' + action.override_flag.split(' ')[0].toLowerCase();
+      } else {
+        ovr.className = 'override-flag none';
+      }
+    }
+
+    // Radar
+    if (profiler.radar_values) {
+        updateRadarFromAgent(profiler.radar_values);
+    }
+
+    // Metrics
+    if (action.decision === 'SUPPRESS') suppressCount++;
+    else interruptCount++;
+    frameCount++;
+    
+    updateWatchViewFromAgent(sensor, profiler, action);
+    updateMetrics();
+    updateSessionStats();
+    addHistoryFromAgent(data);
+    updateUserViewFromAgent(data);
+    
+    // Terminal + Charts
+    pushTerminalFromAgent(sensor);
+    updateChartsFromAgent(sensor);
+    
+    // Sound
+    if (currentState === 'emergency') playSound('emergency');
+    else if (currentState === 'stress') playSound('stress');
+    else if (currentState === 'suppress') playSound('suppress');
+  } catch (e) {
+    console.error("Error updating panels:", e);
+  }
 }
 
-function setLatency(id, min, max) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = Math.round(min + Math.random()*(max-min)) + 'ms';
+function updateRadarFromAgent(vals) {
+  if (!vals) return;
+  const poly = document.getElementById('radar-poly');
+  const max = 60;
+  const order = ['hr_risk', 'social', 'env', 'battery', 'time_risk', 'accel'];
+  const angles = [-90, -30, 30, 90, 150, 210].map(a => a * Math.PI/180);
+  const pts = order.map((k,i) => {
+    const d = (vals[k] || 0) * max;
+    return `${+(Math.cos(angles[i])*d).toFixed(1)},${+(Math.sin(angles[i])*d).toFixed(1)}`;
+  }).join(' ');
+  poly.setAttribute('points', pts);
 }
 
-// ══════════════════════════════════════════
-//  USER VIEW UPDATE
-// ══════════════════════════════════════════
-const USER_STATES = {
-  normal:    { icon:'❤️', status:"You're doing great", sub:'Heart rate normal · All systems good', btn:'Get Help 🆘' },
-  stress:    { icon:'💛', status:'Take a breath', sub:"You're showing signs of stress", btn:'Get Help 🆘' },
-  suppress:  { icon:'👁', status:'Watching over you quietly', sub:"We noticed something — staying silent for now", btn:'Get Help 🆘' },
-  emergency: { icon:'🚨', status:'Get help now', sub:'Something seems seriously wrong', btn:'Call 911 🚨' }
-};
+function updateSessionStats() {
+  fetch('http://localhost:8000/session_summary')
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById('user-stat-suppressed').textContent = d.total_suppressed;
+      document.getElementById('user-stat-alerted').textContent = d.total_alerted;
+      document.getElementById('user-stat-rate').textContent = d.suppression_rate;
+    }).catch(() => {});
+}
 
-function updateUserView(scn) {
-  const st = USER_STATES[currentState] || USER_STATES.normal;
-  document.getElementById('user-icon').textContent = st.icon;
-  document.getElementById('user-status').textContent = st.status;
-  document.getElementById('user-sub').textContent = st.sub;
-  document.getElementById('help-btn').textContent = st.btn;
+function updateUserViewFromAgent(data) {
+  const profiler = data.profiler_output;
+  const action = data.action_output;
+  
+  const iconMap = { normal:'❤️', stress:'💛', suppress:'👁', emergency:'🚨' };
+  document.getElementById('user-icon').textContent = iconMap[currentState] || '❤️';
+  document.getElementById('user-status').textContent = profiler.state_headline || 'System Active';
+  document.getElementById('user-sub').textContent = (profiler.reasoning_trace || [])[0] || 'Monitoring biosignals...';
+  document.getElementById('help-btn').textContent = currentState === 'emergency' ? 'Call 911 🚨' : 'Get Help 🆘';
 
   // Breathe guide
   const bg = document.getElementById('breathe-guide');
@@ -1222,7 +1348,7 @@ function startUserCountdown(el) {
 // ══════════════════════════════════════════
 //  WATCH VIEW UPDATE
 // ══════════════════════════════════════════
-function updateWatchView(scn) {
+function updateWatchViewFromAgent(sensor, profiler, action) {
   const shell = document.getElementById('watch-shell');
   const emergency = document.getElementById('watch-emergency');
   const calling = document.getElementById('watch-calling');
@@ -1241,22 +1367,18 @@ function updateWatchView(scn) {
   main.style.alignItems = 'center';
 
   // Animate HR
-  animateHR(scn.hr);
+  animateHR(sensor.hr);
 
   // Status text
   const statusEl = document.getElementById('watch-status');
-  const statusMap = { normal:'Normal', suppress:'Watching silently', stress:'Elevated', emergency:'EMERGENCY' };
-  if (statusEl) statusEl.textContent = statusMap[currentState] || 'Normal';
+  statusEl.textContent = profiler.watch_status_text || 'Active';
 
-  document.getElementById('watch-spo2').textContent = `SpO₂ ${scn.spo2}%`;
-  document.getElementById('watch-temp').textContent = `${scn.temp}°C`;
-  document.getElementById('watch-time').textContent = `SAT  ${scn.time || '10:42'}`;
+  document.getElementById('watch-spo2').textContent = `SpO₂ ${sensor.spo2}%`;
+  document.getElementById('watch-temp').textContent = `${sensor.temp.toFixed(1)}°C`;
+  document.getElementById('watch-time').textContent = `SAT  ${sensor.time || '10:42'}`;
 
-  // State label under watch
-  const labels = { A:'Scenario A · SUPPRESS · Social Override', B:'Scenario B · EMERGENCY · Call Protocol', C:'Scenario C · SUPPRESS · Nav Override' };
-  const stateNames = { A:'SUPPRESS', B:'EMERGENCY', C:'NORMAL' };
   const wsl = document.getElementById('watch-state-label');
-  if (wsl) wsl.innerHTML = `State: <strong>${stateNames[currentScenario]}</strong> · ${labels[currentScenario]}`;
+  wsl.innerHTML = `State: <strong>${action.decision}</strong> · ${action.override_flag}`;
 
   if (currentState === 'emergency') {
     shell.classList.add('emergency');
@@ -1264,9 +1386,12 @@ function updateWatchView(scn) {
     emergency.classList.add('visible');
     startWatchCountdown();
   } else if (currentState === 'suppress') {
-    eye.classList.add('visible');
+    if (profiler.show_eye_icon) eye.classList.add('visible');
   } else if (currentState === 'stress') {
-    notif.classList.add('visible');
+    if (profiler.watch_notification_text) {
+        notif.textContent = profiler.watch_notification_text;
+        notif.classList.add('visible');
+    }
   }
 }
 
@@ -1333,15 +1458,15 @@ function updateMetrics() {
   document.getElementById('m-frames').textContent = frameCount;
 }
 
-function addHistory(scn, id) {
-  const a = scn.action;
+function addHistoryFromAgent(data) {
+  const a = data.action_output;
   const now = new Date();
   const t = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
-  historyLog.unshift({ time:t, decision:a.badge, action: a.override || scn.name, urgency:a.urgency });
+  historyLog.unshift({ time:t, decision:a.decision, action: a.override_flag !== 'NONE' ? a.override_flag : data.profiler_output.state_headline, urgency:a.urgency });
   const log = document.getElementById('history-log');
   if (!log) return;
   log.innerHTML = historyLog.slice(0,8).map(h => {
-    const cls = h.decision === 'SUPPRESS' ? 'sup' : h.decision === 'INTERRUPT' ? 'int' : 'not';
+    const cls = h.decision === 'SUPPRESS' ? 'sup' : 'int';
     return `<div class="h-row">
       <span class="h-time">${h.time}</span>
       <span class="h-decision ${cls}">${h.decision}</span>
@@ -1349,6 +1474,34 @@ function addHistory(scn, id) {
       <span class="h-urg">${h.urgency.toFixed(2)}</span>
     </div>`;
   }).join('');
+}
+
+function pushTerminalFromAgent(s) {
+  const t = document.getElementById('terminal');
+  const line = document.createElement('div');
+  line.className = 'term-line';
+  line.textContent = `{"hr":${s.hr},"spo2":${s.spo2},"gsr":${s.gsr.toFixed(2)},"app":"${s.app}"}`;
+  t.prepend(line);
+  if (t.children.length > 5) t.removeChild(t.lastChild);
+}
+
+function updateChartsFromAgent(s) {
+  if (!charts.hr) return;
+  hrData.push(s.hr); hrData.shift();
+  spo2Data.push(s.spo2); spo2Data.shift();
+  gsrData.push(s.gsr); gsrData.shift();
+  tempData.push(s.temp); tempData.shift();
+  ['hr','spo2','gsr','temp'].forEach(k => {
+    charts[k].data.datasets[0].data = [...{hr:hrData,spo2:spo2Data,gsr:gsrData,temp:tempData}[k]];
+    charts[k].update('none');
+  });
+}
+
+function setBar(barId, valId, pct, label) {
+  const bar = document.getElementById(barId);
+  const val = document.getElementById(valId);
+  if (bar) bar.style.width = pct + '%';
+  if (val) val.textContent = label;
 }
 
 // ══════════════════════════════════════════
@@ -1387,226 +1540,48 @@ function setWatchPill(el) {
 // ══════════════════════════════════════════
 //  LIVE AGENT INTEGRATION
 // ══════════════════════════════════════════
+let lastLiveWatchState = 'normal';
+
 function toggleLiveAgent() {
   useLiveAgent = !useLiveAgent;
   const btn = document.getElementById('live-agent-toggle');
-  const icon = document.getElementById('agent-icon');
-  const text = document.getElementById('agent-text');
-  const badge = document.querySelector('.live-badge');
-  
   if (useLiveAgent) {
     btn.classList.add('active');
-    icon.textContent = '🧠';
-    text.textContent = 'LIVE AI AGENT ACTIVE';
-    if (badge) badge.classList.add('agent-on');
-    // Trigger initial call
-    const scn = SCENARIOS[currentScenario];
-    fetchAgentData(scn);
+    btn.innerHTML = '<span id="agent-icon">■</span> <span id="agent-text">STOP AGENT STREAM</span>';
   } else {
     btn.classList.remove('active');
-    icon.textContent = '⚡';
-    text.textContent = 'USE LOCAL SIMULATION';
-    if (badge) badge.classList.remove('agent-on');
-    loadScenario(currentScenario); // Reset to hardcoded
+    btn.innerHTML = '<span id="agent-icon">▶</span> <span id="agent-text">RUN THROUGH AGENTS</span>';
   }
 }
 
+// Alias for the telemetry loop
+const SCENARIOS = FALLBACK_SCENARIOS;
+
 async function fetchAgentData(scenarioId) {
-  const modeMap = { 'A': 'stress', 'B': 'emergency', 'C': 'normal' };
+  const now = Date.now();
+  if (now - lastAgentCall < 4000) return; // throttle live calls
+  lastAgentCall = now;
+
+  // Map scenario IDs to backend simulation modes
+  const modeMap = { A: 'stress', B: 'emergency', C: 'normal', D: 'stress' };
   const mode = modeMap[scenarioId] || 'normal';
 
   try {
     const response = await fetch('http://localhost:8000/simulate_step', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mode: mode })
+      body: JSON.stringify({ mode })
     });
-    
-    if (!response.ok) throw new Error('API Offline');
+    if (!response.ok) throw new Error('Server error');
     const data = await response.json();
-    updateUIFromAgent(data);
+    updateAllPanelsFromAgent(data);
   } catch (err) {
-    console.error('Agent Error:', err);
-    // If server fails, we stay in sim mode or show error
-  }
-}
-
-function updateUIFromAgent(data) {
-  if (!useLiveAgent) return;
-
-  const sensor = data.sensor_data;
-  const profile = data.profiler_output;
-  const decision = data.action_output;
-
-  // Sync frames, terminal and charts
-  frameCount++;
-  const m = document.getElementById('m-frames');
-  if (m) m.textContent = frameCount;
-
-  if (charts.hr) {
-    hrData.push(sensor.hr); hrData.shift();
-    spo2Data.push(sensor.spo2); spo2Data.shift();
-    gsrData.push(sensor.gsr); gsrData.shift();
-    tempData.push(sensor.temp); tempData.shift();
-    ['hr','spo2','gsr','temp'].forEach(k => {
-      const d = {hr:hrData,spo2:spo2Data,gsr:gsrData,temp:tempData}[k];
-      charts[k].data.datasets[0].data = [...d];
-      charts[k].update('none');
-    });
-  }
-
-  const t = document.getElementById('terminal');
-  if (t) {
-    const ts = Math.floor(Date.now()/1000);
-    const line = document.createElement('div');
-    line.className = 'term-line';
-    line.textContent = `{"ts":${ts},"hr":${sensor.hr},"spo2":${sensor.spo2},"gsr":${sensor.gsr.toFixed(2)},"temp":${sensor.temp.toFixed(1)},"accel":${sensor.accel.toFixed(2)}}`;
-    t.prepend(line);
-    while (t.children.length > 5) t.removeChild(t.lastChild);
-  }
-
-  // Update State Headline
-  const headline = document.getElementById('p-state');
-  if (headline) headline.textContent = profile.state_label;
-
-  // Update Reasoning Box (Thinking Trace)
-  const rbox = document.getElementById('p-reasoning');
-  if (rbox) {
-    // Stop any existing typewriter animations
-    if (typeof typewriterTimer !== 'undefined' && typewriterTimer) {
-      clearInterval(typewriterTimer);
+    // Fallback to local data when server is offline
+    const scn = FALLBACK_SCENARIOS[scenarioId];
+    if (scn) {
+      pushTerminal(scn.sensor_data);
+      updateCharts(scn.sensor_data);
     }
-    // Update instantly to handle fast 900ms tick rate
-    rbox.innerHTML = profile.reasoning.join('<br>') + '<span class="reasoning-cursor"></span>';
-  }
-
-  // Update Action Decision
-  const decEl = document.getElementById('a-decision');
-  if (decEl) decEl.textContent = decision.action_type.toUpperCase().replace('_', ' ');
-
-  // Update Action Badge
-  const badge = document.getElementById('a-badge');
-  if (badge) {
-    const isSuppress = decision.decision === "SUPPRESS";
-    badge.textContent = decision.decision;
-    badge.className = 'decision-badge ' + (isSuppress ? 'suppress' : 'interrupt');
-  }
-
-  // Update Action Steps
-  const stepsEl = document.getElementById('a-steps');
-  if (stepsEl && decision.reasoning_steps) {
-    stepsEl.innerHTML = '';
-    decision.reasoning_steps.forEach((s, i) => {
-      const row = document.createElement('div');
-      row.className = 'r-step visible';
-      row.innerHTML = `<div class="r-step-dot">${i+1}</div><div>${s}</div>`;
-      stepsEl.appendChild(row);
-    });
-  }
-
-  // Update Bars
-  setBar('p-conf-bar', 'p-conf-val', profile.confidence * 100, Math.round(profile.confidence * 100) + '%');
-  setBar('a-urgency-bar', 'a-urgency-val', decision.urgency * 100, decision.urgency.toFixed(2));
-
-  // Override Flag
-  const overrideEl = document.getElementById('a-override');
-  if (overrideEl) {
-     if (decision.override_flag !== "NONE") {
-         overrideEl.className = "override-flag visible";
-         if (decision.override_flag.includes("SOCIAL")) overrideEl.classList.add("social");
-         else if (decision.override_flag.includes("NAV")) overrideEl.classList.add("nav");
-         else if (decision.override_flag.includes("EMERGENCY")) overrideEl.classList.add("emergency");
-         overrideEl.textContent = decision.override_flag;
-     } else {
-         overrideEl.className = "override-flag none";
-     }
-  }
-
-  // Live values
-  const hrVals = document.querySelectorAll('.watch-hr');
-  hrVals.forEach(el => el.textContent = Math.round(sensor.hr));
-
-  const latEl = document.getElementById('p-latency');
-  if (latEl) latEl.textContent = 'local ms';
-
-  // Sync Watch View with Live Agent
-  updateWatchViewFromAgent(sensor, profile, decision);
-}
-
-let lastLiveWatchState = null;
-function updateWatchViewFromAgent(sensor, profile, decision) {
-  const shell = document.getElementById('watch-shell');
-  const emergency = document.getElementById('watch-emergency');
-  const calling = document.getElementById('watch-calling');
-  const main = document.getElementById('watch-main');
-  const notif = document.getElementById('watch-notif');
-  const eye = document.getElementById('watch-eye');
-
-  // 1. Determine state directly from agent action
-  let watchState = 'normal';
-  const act = decision.action_type || '';
-  if (act.includes('EMERGENCY')) watchState = 'emergency';
-  else if (act.includes('URGENT') || act.includes('NOTIFY')) watchState = 'stress';
-  else if (decision.decision === 'SUPPRESS' || act.includes('SILENT') || act.includes('DISTURB')) watchState = 'suppress';
-
-  if (watchState !== lastLiveWatchState) {
-      if (watchState === 'emergency') {
-          playSound('emergency');
-          if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-      } else if (watchState === 'stress') {
-          playSound('stress');
-          if (navigator.vibrate) navigator.vibrate([100]);
-      } else if (watchState === 'suppress') {
-          playSound('suppress');
-      }
-      lastLiveWatchState = watchState;
-  }
-
-  // 2. Set Theme Colors
-  const colors = { normal:'var(--normal)', suppress:'var(--suppress)', stress:'var(--stress)', emergency:'var(--emergency)' };
-  const glows  = { normal:'var(--normal-g)', suppress:'var(--suppress-g)', stress:'var(--stress-g)', emergency:'var(--emergency-g)' };
-  document.documentElement.style.setProperty('--state-color', colors[watchState] || colors.normal);
-  document.documentElement.style.setProperty('--state-glow', glows[watchState] || glows.normal);
-
-  // 3. Reset UI
-  shell.className = 'watch-shell';
-  emergency.classList.remove('visible');
-  notif.classList.remove('visible');
-  eye.classList.remove('visible');
-  main.style.display = 'flex';
-  main.style.flexDirection = 'column';
-  main.style.alignItems = 'center';
-
-  // 4. Update live telemetry
-  animateHR(sensor.hr);
-  const statusEl = document.getElementById('watch-status');
-  const statusMap = { normal:'Normal', suppress:'Silent Mode', stress:'Alert', emergency:'EMERGENCY' };
-  if (statusEl) statusEl.textContent = statusMap[watchState] || 'Normal';
-  document.getElementById('watch-spo2').textContent = `SpO₂ ${sensor.spo2}%`;
-  document.getElementById('watch-temp').textContent = `${sensor.temp.toFixed(1)}°C`;
-  
-  const wsl = document.getElementById('watch-state-label');
-  if (wsl) wsl.innerHTML = `State: <strong>${decision.decision}</strong> · ${act.replace(/_/g, ' ')}`;
-
-  // 5. Trigger respective view modes
-  if (watchState === 'emergency') {
-    shell.classList.add('emergency');
-    main.style.display = 'none';
-    if (!calling.classList.contains('visible')) {
-        emergency.classList.add('visible');
-        if (!countdownTimer) startWatchCountdown();
-    }
-  } else if (watchState === 'suppress') {
-    eye.classList.add('visible');
-    cancelAllTimers();
-    calling.classList.remove('visible');
-  } else if (watchState === 'stress') {
-    notif.classList.add('visible');
-    cancelAllTimers();
-    calling.classList.remove('visible');
-  } else {
-    cancelAllTimers();
-    calling.classList.remove('visible');
   }
 }
 
@@ -1615,17 +1590,26 @@ function updateWatchViewFromAgent(sensor, profile, decision) {
 // ══════════════════════════════════════════
 setInterval(() => {
   const scn = SCENARIOS[currentScenario];
+  if (!scn) return;
+
+  // ALWAYS update the "Sensor UI" (Charts, Terminal, HR Jitter) every 900ms
+  pushTerminal(scn.sensor_data);
+  updateCharts(scn.sensor_data);
   
+  // Also update the watch face HR number for a live feel
+  const jitteredHR = Math.round(scn.sensor_data.hr + (Math.random() - 0.5) * 4);
+  const watchHR = document.getElementById('watch-hr');
+  if (watchHR && currentState !== 'emergency') {
+    watchHR.textContent = jitteredHR;
+  }
+
+  frameCount++;
+  const m = document.getElementById('m-frames');
+  if (m) m.textContent = frameCount;
+
+  // RUN AGENT reasoning in parallel if enabled (subject to its own 4s throttle)
   if (useLiveAgent) {
-    // Rely completely on backend simulation frame
     fetchAgentData(currentScenario);
-  } else {
-    // Use frontend static mockup generator
-    pushTerminal(scn);
-    updateCharts(scn);
-    frameCount++;
-    const m = document.getElementById('m-frames');
-    if (m) m.textContent = frameCount;
   }
 }, 900);
 
