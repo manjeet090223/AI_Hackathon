@@ -1528,6 +1528,72 @@ function updateUIFromAgent(data) {
 
   const latEl = document.getElementById('p-latency');
   if (latEl) latEl.textContent = 'local ms';
+
+  // Sync Watch View with Live Agent
+  updateWatchViewFromAgent(sensor, profile, decision);
+}
+
+function updateWatchViewFromAgent(sensor, profile, decision) {
+  const shell = document.getElementById('watch-shell');
+  const emergency = document.getElementById('watch-emergency');
+  const calling = document.getElementById('watch-calling');
+  const main = document.getElementById('watch-main');
+  const notif = document.getElementById('watch-notif');
+  const eye = document.getElementById('watch-eye');
+
+  // 1. Determine state directly from agent action
+  let watchState = 'normal';
+  const act = decision.action_type || '';
+  if (act.includes('EMERGENCY')) watchState = 'emergency';
+  else if (act.includes('URGENT') || act.includes('NOTIFY')) watchState = 'stress';
+  else if (decision.decision === 'SUPPRESS' || act.includes('SILENT') || act.includes('DISTURB')) watchState = 'suppress';
+
+  // 2. Set Theme Colors
+  const colors = { normal:'var(--normal)', suppress:'var(--suppress)', stress:'var(--stress)', emergency:'var(--emergency)' };
+  const glows  = { normal:'var(--normal-g)', suppress:'var(--suppress-g)', stress:'var(--stress-g)', emergency:'var(--emergency-g)' };
+  document.documentElement.style.setProperty('--state-color', colors[watchState] || colors.normal);
+  document.documentElement.style.setProperty('--state-glow', glows[watchState] || glows.normal);
+
+  // 3. Reset UI
+  shell.className = 'watch-shell';
+  emergency.classList.remove('visible');
+  notif.classList.remove('visible');
+  eye.classList.remove('visible');
+  main.style.display = 'flex';
+  main.style.flexDirection = 'column';
+  main.style.alignItems = 'center';
+
+  // 4. Update live telemetry
+  animateHR(sensor.hr);
+  const statusEl = document.getElementById('watch-status');
+  const statusMap = { normal:'Normal', suppress:'Silent Mode', stress:'Alert', emergency:'EMERGENCY' };
+  if (statusEl) statusEl.textContent = statusMap[watchState] || 'Normal';
+  document.getElementById('watch-spo2').textContent = `SpO₂ ${sensor.spo2}%`;
+  document.getElementById('watch-temp').textContent = `${sensor.temp.toFixed(1)}°C`;
+  
+  const wsl = document.getElementById('watch-state-label');
+  if (wsl) wsl.innerHTML = `State: <strong>${decision.decision}</strong> · ${act.replace(/_/g, ' ')}`;
+
+  // 5. Trigger respective view modes
+  if (watchState === 'emergency') {
+    shell.classList.add('emergency');
+    main.style.display = 'none';
+    if (!calling.classList.contains('visible')) {
+        emergency.classList.add('visible');
+        if (!countdownTimer) startWatchCountdown();
+    }
+  } else if (watchState === 'suppress') {
+    eye.classList.add('visible');
+    cancelAllTimers();
+    calling.classList.remove('visible');
+  } else if (watchState === 'stress') {
+    notif.classList.add('visible');
+    cancelAllTimers();
+    calling.classList.remove('visible');
+  } else {
+    cancelAllTimers();
+    calling.classList.remove('visible');
+  }
 }
 
 // ══════════════════════════════════════════
