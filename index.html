@@ -1165,12 +1165,57 @@ function typewrite(el, text, speed=28) {
 }
 
 // ══════════════════════════════════════════
-//  LOAD SCENARIO
+//  API CALLS
 // ══════════════════════════════════════════
-// ══════════════════════════════════════════
-//  LOAD SCENARIO
-// ══════════════════════════════════════════
-async function loadScenario(id) {
+
+function updateUI(data) {
+  updateAllPanelsFromAgent(data);
+}
+
+function useFallback(id) {
+  const mock = FALLBACK_SCENARIOS[id || currentScenario];
+  if (!mock) return;
+  console.warn("Using fallback data for scenario:", id);
+  updateAllPanelsFromAgent({
+    sensor_data: mock.sensor_data,
+    profiler_output: mock.profiler_output,
+    action_output: {
+      decision: mock.profiler_output.action_badge,
+      action_type: mock.profiler_output.action_badge === 'SUPPRESS' ? 'SILENT_MONITOR' : 'URGENT_NOTIFY',
+      urgency: mock.profiler_output.urgency_score,
+      override_flag: mock.profiler_output.override_flag,
+      reasoning_steps: mock.profiler_output.reasoning_trace
+    }
+  });
+}
+
+function callAgentAPI(scenarioId) {
+  console.log("Calling backend...");
+  setLoadingState(true);
+  fetch("https://ai-hackathon-ohfp.onrender.com/agent_simulate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      scenario: scenarioId
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("Response:", data);
+    updateUI(data);
+  })
+  .catch(err => {
+    console.error("API Error:", err);
+    useFallback(scenarioId); // fallback safety
+  })
+  .finally(() => {
+    setLoadingState(false);
+  });
+}
+
+function loadScenario(id) {
   currentScenario = id;
   cancelAllTimers();
   
@@ -1180,38 +1225,10 @@ async function loadScenario(id) {
   });
   document.getElementById('scn-'+id)?.classList.add('active-scn');
   
-  setLoadingState(true);
-  
-  try {
-    const response = await fetch('http://localhost:8000/agent_simulate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ scenario: id })
-    });
-    
-    if (!response.ok) throw new Error('Offline');
-    const data = await response.json();
-    
-    if (data.error) throw new Error(data.error);
-    
-    updateAllPanelsFromAgent(data);
-    
-  } catch (err) {
-    console.warn("Using fallback data:", err);
-    const mock = FALLBACK_SCENARIOS[id];
-    updateAllPanelsFromAgent({
-      sensor_data: mock.sensor_data,
-      profiler_output: mock.profiler_output,
-      action_output: {
-        decision: mock.profiler_output.action_badge,
-        action_type: mock.profiler_output.action_badge === 'SUPPRESS' ? 'SILENT_MONITOR' : 'URGENT_NOTIFY',
-        urgency: mock.profiler_output.urgency_score,
-        override_flag: mock.profiler_output.override_flag,
-        reasoning_steps: mock.profiler_output.reasoning_trace
-      }
-    });
-  } finally {
-    setLoadingState(false);
+  if (useLiveAgent) {
+      callAgentAPI(id);
+  } else {
+      useFallback(id);
   }
 }
 
@@ -1349,7 +1366,7 @@ function updateRadarFromAgent(vals) {
 }
 
 function updateSessionStats() {
-  fetch('http://localhost:8000/session_summary')
+  fetch('https://ai-hackathon-ohfp.onrender.com/session_summary')
     .then(r => r.json())
     .then(d => {
       document.getElementById('user-stat-suppressed').textContent = d.total_suppressed;
@@ -1596,7 +1613,7 @@ function playSound(type) {
 // ══════════════════════════════════════════
 async function handleImFine() { 
   try {
-    await fetch('http://localhost:8000/user_feedback', {
+    await fetch('https://ai-hackathon-ohfp.onrender.com/user_feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ feedback: "I'M FINE" })
@@ -1612,7 +1629,7 @@ async function handleGetHelp() {
 
 async function handleCancel() {
   try {
-    await fetch('http://localhost:8000/user_feedback', {
+    await fetch('https://ai-hackathon-ohfp.onrender.com/user_feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ feedback: "CANCELLED" })
@@ -1648,9 +1665,11 @@ function toggleLiveAgent() {
   if (useLiveAgent) {
     btn.classList.add('active');
     btn.innerHTML = '<span id="agent-icon">■</span> <span id="agent-text">STOP AGENT STREAM</span>';
+    loadScenario(currentScenario); // Trigger API call when enabled
   } else {
     btn.classList.remove('active');
     btn.innerHTML = '<span id="agent-icon">▶</span> <span id="agent-text">RUN THROUGH AGENTS</span>';
+    useFallback(currentScenario); // Revert to fallback when disabled
   }
 }
 
@@ -1667,7 +1686,7 @@ async function fetchAgentData(scenarioId) {
   const mode = modeMap[scenarioId] || 'normal';
 
   try {
-    const response = await fetch('http://localhost:8000/simulate_step', {
+    const response = await fetch('https://ai-hackathon-ohfp.onrender.com/simulate_step', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ mode })
@@ -1677,11 +1696,7 @@ async function fetchAgentData(scenarioId) {
     updateAllPanelsFromAgent(data);
   } catch (err) {
     // Fallback to local data when server is offline
-    const scn = FALLBACK_SCENARIOS[scenarioId];
-    if (scn) {
-      pushTerminal(scn.sensor_data);
-      updateCharts(scn.sensor_data);
-    }
+    useFallback(scenarioId);
   }
 }
 

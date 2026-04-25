@@ -210,6 +210,8 @@ class WearableAgentBrain:
     def reset(self):
         self.telemetry_window.clear()
         self.decision_history.clear()
+        self.user_feedback = None
+        self.feedback_time = 0
         self.profiler_cache = None
         self.action_cache = None
 
