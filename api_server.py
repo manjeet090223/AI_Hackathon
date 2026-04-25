@@ -166,7 +166,13 @@ def map_to_ui_format(output: dict) -> dict:
         # Map Action
         action_str = str(decision.get("action", "STAY_SILENT"))
         is_suppress = action_str in ["STAY_SILENT", "LOG_ONLY"]
-        mapped_decision = "SUPPRESS" if is_suppress else "INTERRUPT"
+        
+        if is_suppress:
+            mapped_decision = "SUPPRESS"
+        elif action_str == "EMERGENCY_ALERT":
+            mapped_decision = "INTERRUPT"
+        else:
+            mapped_decision = "NOTIFY"
         
         # Override flags
         override_flag = "NONE"
@@ -213,10 +219,10 @@ def map_to_ui_format(output: dict) -> dict:
             "social_risk_pct": social_risk_pct,
             "interruption_cost_pct": interruption_cost_pct,
             "reasoning_trace": reasoning_trace,
-            "action_decision": "STAY SILENT" if is_suppress else "ALERT NOW",
+            "action_decision": "STAY SILENT" if is_suppress else ("EMERGENCY" if action_str == "EMERGENCY_ALERT" else "NOTIFICATION"),
             "urgency_score": urgency_score,
             "override_flag": override_flag,
-            "watch_status_text": "Silent" if is_suppress else "ALERT",
+            "watch_status_text": "Silent" if is_suppress else ("ALERT" if action_str == "EMERGENCY_ALERT" else "NOTICE"),
             "watch_notification_text": decision.get("message") if not is_suppress else None,
             "show_eye_icon": is_suppress,
             "radar_values": radar_values,
@@ -281,6 +287,15 @@ async def session_summary():
     if not brain:
         return {"error": "Brain not initialized"}
     return brain.get_session_summary()
+
+@app.post("/user_feedback")
+async def user_feedback(req: dict):
+    feedback = req.get("feedback", "FINE")
+    if brain:
+        brain.set_feedback(feedback)
+        # Force a return to normal scenario in the simulator
+        return {"status": "feedback_received", "action": "RESET_SIM"}
+    return {"error": "Brain not initialized"}
 
 @app.post("/agent_simulate")
 async def agent_simulate(req: dict):

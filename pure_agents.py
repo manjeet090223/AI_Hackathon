@@ -212,7 +212,7 @@ What is happening with this person right now?
 def run_profiler_agent(telemetry_window: list[dict]) -> dict:
     return safe_agent_call(_run_profiler_agent_internal, telemetry_window, fallback=_cached_profiler_response or PROFILER_FALLBACK)
 
-def _run_action_agent_internal(latest_sensor: dict, user_profile: dict, decision_history: list[dict]) -> dict:
+def _run_action_agent_internal(latest_sensor: dict, user_profile: dict, user_note: str, decision_history: list[dict]) -> dict:
     global _cached_action_response
     if not rate_limiter.can_call():
         return _cached_action_response or ACTION_FALLBACK
@@ -251,14 +251,14 @@ STEP 1 — CHECK FOR ABSOLUTE EMERGENCY (override everything):
 
 STEP 2 — CHECK FOR SUPPRESSION CONTEXTS (these silence alerts):
   Any ONE of these suppresses non-emergency alerts:
-    → app = bead_counter (user is meditating/praying)
-    → app = sleep and profiler says sleeping (BUT NOT if HR > 110)
-    → app = maps AND battery < 10% AND gps = unfamiliar
-      (user is navigating, needs device, don't drain it)
-    → profiler primary_state = sleeping
-    → profiler confidence < 0.5 (not sure what's happening)
-    → hr_trend = stable for last 5+ readings (no escalation)
-    → app = fitness OR profiler primary_state = exercising (always stay silent for exercise unless lethal)
+    - STAY_SILENT if: user just acknowledged an alert (feedback: "I'M FINE") in the last 2 minutes.
+    - STAY_SILENT if: primary_state = "sleeping" [unless HR > 110 AND stress > 70 AND timestamp is night/2AM]
+    - EMERGENCY_ALERT if: HR > 130 AND activity = "still" AND stress > 80 AND timestamp is unexpected (e.g. 2AM sleeping).
+    - EMERGENCY_ALERT if: HR < 45 AND user is not sleeping.
+    - NOTIFY if: HR is moderately elevated (100-120) while still, but only if confidence > 0.8.
+    - STAY_SILENT if: active_app = "bead_counter" [user is meditating — NEVER interrupt].
+    - STAY_SILENT if: confidence < 0.6 [too much uncertainty].
+    - LOG_ONLY: for all other low-risk states.
 
 STEP 3 — ASSESS INTERRUPTION COST:
   High cost (prefer silence):
@@ -337,6 +337,9 @@ Suppression Reasons: {user_profile.get('suppression_reasons', [])}
 Confidence: {user_profile.get('confidence', 0.5)}
 Profiler Reasoning: {user_profile.get('reasoning', '')}
 
+RELEVANT USER NOTE (IF ANY):
+"{user_note or 'No note provided by user.'}"
+
 RECENT DECISION HISTORY:
 {history_text}
 
@@ -364,20 +367,30 @@ What action should the system take right now?
     _cached_action_response = parsed
     return parsed
 
-def run_action_agent(latest_sensor: dict, user_profile: dict, decision_history: list[dict]) -> dict:
-    return safe_agent_call(_run_action_agent_internal, latest_sensor, user_profile, decision_history, fallback=_cached_action_response or ACTION_FALLBACK)
+def run_action_agent(latest_sensor: dict, user_profile: dict, user_note: str, decision_history: list[dict]) -> dict:
+    return safe_agent_call(_run_action_agent_internal, latest_sensor, user_profile, user_note, decision_history, fallback=_cached_action_response or ACTION_FALLBACK)
 
 class WearableAgentBrain:
     def __init__(self):
         self.telemetry_window = deque(maxlen=10)
         self.decision_history = []
+        self.user_feedback = None  # Stores "I'M FINE" or "CANCELLED"
+        self.feedback_time = 0
         # Client initialized globally for rate limiter tracking
         self.llm_enabled = bool(client)
         
+    def set_feedback(self, feedback: str):
+        self.user_feedback = feedback
+        self.feedback_time = time.time()
+
     def ingest(self, sensor_reading: dict):
         """Call this every 3 seconds with new sensor data"""
         self.telemetry_window.append(sensor_reading)
         
+        # Clear feedback after 2 minutes
+        if time.time() - self.feedback_time > 120:
+            self.user_feedback = None
+
         # Need at least 3 readings before making decisions
         if len(self.telemetry_window) < 3:
             return {"status": "warming_up", "readings": len(self.telemetry_window)}
@@ -388,10 +401,14 @@ class WearableAgentBrain:
         profiler_latency = round(time.time() - profiler_start, 3)
         
         # AGENT 2: Decide what to do
+        # Add feedback to the "note" field so the agent sees it
+        feedback_note = f"USER JUST REPLIED: {self.user_feedback}" if self.user_feedback else ""
+        
         action_start = time.time()
         decision = run_action_agent(
             latest_sensor=sensor_reading,
             user_profile=user_profile,
+            user_note=feedback_note,
             decision_history=self.decision_history
         )
         action_latency = round(time.time() - action_start, 3)
