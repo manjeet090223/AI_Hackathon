@@ -1533,6 +1533,7 @@ function updateUIFromAgent(data) {
   updateWatchViewFromAgent(sensor, profile, decision);
 }
 
+let lastLiveWatchState = null;
 function updateWatchViewFromAgent(sensor, profile, decision) {
   const shell = document.getElementById('watch-shell');
   const emergency = document.getElementById('watch-emergency');
@@ -1547,6 +1548,19 @@ function updateWatchViewFromAgent(sensor, profile, decision) {
   if (act.includes('EMERGENCY')) watchState = 'emergency';
   else if (act.includes('URGENT') || act.includes('NOTIFY')) watchState = 'stress';
   else if (decision.decision === 'SUPPRESS' || act.includes('SILENT') || act.includes('DISTURB')) watchState = 'suppress';
+
+  if (watchState !== lastLiveWatchState) {
+      if (watchState === 'emergency') {
+          playSound('emergency');
+          if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+      } else if (watchState === 'stress') {
+          playSound('stress');
+          if (navigator.vibrate) navigator.vibrate([100]);
+      } else if (watchState === 'suppress') {
+          playSound('suppress');
+      }
+      lastLiveWatchState = watchState;
+  }
 
   // 2. Set Theme Colors
   const colors = { normal:'var(--normal)', suppress:'var(--suppress)', stress:'var(--stress)', emergency:'var(--emergency)' };
