@@ -38,8 +38,8 @@ class ProfilerAgent:
     def __init__(self):
         self.hr_baseline = 60  
         self.hr_max_normal = 100  
-        self.hr_stress = 120 
-        self.hr_emergency = 120  
+        self.hr_stress = 105 
+        self.hr_emergency = 125
         self.emergency_movement_threshold = 0.1  
 
     def _classify_heart_rate(self, hr: int) -> Tuple[str, int]:
@@ -265,11 +265,11 @@ class ProfilerAgent:
         
 
         elif state == "normal":
-            if 60 <= hr <= 90:
+            if 60 <= hr <= 110:
                 confidence += 0.3
-            if 0.1 <= movement <= 0.4:
+            if 0.0 <= movement <= 0.4:
                 confidence += 0.2
-            if app.lower() in ["idle", "work"]:
+            if app.lower() in ["idle", "work", "interview @ google"]:
                 confidence += 0.15
         
 

@@ -176,3 +176,16 @@ class ActionAgent:
     def reset_history(self):
         """Clear decision history"""
         self.decision_history.clear()
+
+from models import ActionDecision
+
+class AdaptiveActionAgent:
+    def __init__(self, memory):
+        self.memory = memory
+
+    def decide(self, user_id, state_info, llm_pred) -> ActionDecision:
+        advice = "Monitoring contextually..."
+        if llm_pred:
+            advice = llm_pred.advice
+        return ActionDecision(advice=advice)
+

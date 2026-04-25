@@ -47,7 +47,7 @@ class LLMReasonerAgent:
     - Natural explanations for decisions
     """
 
-    def __init__(self, api_key: Optional[str] = None, model: str = "mixtral-8x7b-32768"):
+    def __init__(self, api_key: Optional[str] = None, model: str = "llama-3.3-70b-versatile"):
         """
         Initialize LLM reasoner.
         
