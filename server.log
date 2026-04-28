@@ -1,263 +1,88 @@
-INFO:     Started server process [44200]
+INFO:     Started server process [92033]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
 🚀 Starting Wearable AI Local Sim Server (Groq Edition) on http://localhost:8000
-INFO:     127.0.0.1:49777 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49777 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49779 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49779 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49788 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59131 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59131 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59132 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59132 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
-  "primary_state": "exercising",
-  "stress_level": "high",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Engaging in phy...
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing work-...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": false,
+  "reasoning_short": "Meditating/bead_counter p...
+INFO:     127.0.0.1:59132 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Meditating/bead_counter pr...
+INFO:     127.0.0.1:59132 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Meditating/bead_counter pr...
+INFO:     127.0.0.1:59132 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Meditating/bead_counter pr...
+INFO:     127.0.0.1:59132 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
 DEBUG AGENT RAW: {
   "action": "GENTLE_NOTIFY",
-  "message": null,
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.2,
+  "suppressio...
+INFO:     127.0.0.1:59132 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
   "urgency_score": 0.7,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate and str...
-INFO:     127.0.0.1:49788 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49788 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "high",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "focusing on work t...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate and str...
-INFO:     127.0.0.1:49790 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "GET /session_summary HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "resting",
-  "stress_level": "high",
-  "physical_state": "still",
-  "hr_trend": "stable",
-  "active_intent": "User is experiencin...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate and str...
-INFO:     127.0.0.1:49795 - "POST /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "resting",
-  "stress_level": "low",
-  "physical_state": "still",
-  "hr_trend": "stable",
-  "active_intent": "No active intent det...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.0,
-  "suppression_active": false,
-  "reasoning_short": "Primary state is resting ...
-INFO:     127.0.0.1:49801 - "POST /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "GET /session_summary HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "resting",
-  "stress_level": "low",
-  "physical_state": "still",
-  "hr_trend": "falling",
-  "active_intent": "User is resting and...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.0,
-  "suppression_active": false,
-  "reasoning_short": "Primary state is resting ...
-INFO:     127.0.0.1:49790 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "resting",
-  "stress_level": "low",
-  "physical_state": "still",
-  "hr_trend": "falling",
-  "active_intent": "User is resting and...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.0,
-  "suppression_active": true,
-  "reasoning_short": "Primary state is resting a...
-INFO:     127.0.0.1:49799 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "GET /session_summary HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "resting",
-  "stress_level": "low",
-  "physical_state": "still",
-  "hr_trend": "rising",
-  "active_intent": "User is waking up fr...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.0,
-  "suppression_active": false,
-  "reasoning_short": "Primary state is resting ...
-INFO:     127.0.0.1:49799 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "resting",
-  "stress_level": "low",
-  "physical_state": "sedentary",
-  "hr_trend": "rising",
-  "active_intent": "User is transiti...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.0,
-  "suppression_active": false,
-  "reasoning_short": "Primary state is resting ...
-INFO:     127.0.0.1:49801 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "resting",
-  "stress_level": "low",
-  "physical_state": "sedentary",
-  "hr_trend": "rising",
-  "active_intent": "User is transiti...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.0,
-  "suppression_active": true,
-  "reasoning_short": "Primary state is resting a...
-INFO:     127.0.0.1:49805 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "exercising",
-  "stress_level": "high",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Engaging in phy...
-DEBUG AGENT RAW: {
-  "action": "EMERGENCY_ALERT",
-  "message": null,
-  "urgency_score": 0.9,
-  "suppression_active": false,
-  "reasoning_short": "Emergency mode active...
-INFO:     127.0.0.1:49807 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "GET /session_summary HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "exercising",
-  "stress_level": "high",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Engaging in phy...
-DEBUG AGENT RAW: {
-  "action": "EMERGENCY_ALERT",
-  "message": null,
-  "urgency_score": 1.0,
-  "suppression_active": false,
-  "reasoning_short": "Emergency mode active...
-INFO:     127.0.0.1:49801 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "exercising",
-  "stress_level": "high",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Engaging in phy...
-DEBUG AGENT RAW: {
-  "action": "EMERGENCY_ALERT",
-  "message": null,
-  "urgency_score": 0.9,
-  "suppression_active": false,
-  "reasoning_short": "Emergency mode active...
-INFO:     127.0.0.1:49805 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "resting",
-  "stress_level": "low",
-  "physical_state": "sedentary",
-  "hr_trend": "rising",
-  "active_intent": "User is resting ...
-DEBUG AGENT RAW: {
-  "action": "EMERGENCY_ALERT",
-  "message": null,
-  "urgency_score": 0.9,
-  "suppression_active": false,
-  "reasoning_short": "Emergency mode active...
-INFO:     127.0.0.1:49790 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "exercising",
-  "stress_level": "high",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Engaging in int...
-RATE LIMIT: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kq2n1dtmfq79w9j067jm9erk` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5298, Requested 808. Please try again in 1.06s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
-INFO:     127.0.0.1:49795 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "exercising",
-  "stress_level": "high",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Engaging in int...
-DEBUG AGENT RAW: {
-  "action": "EMERGENCY_ALERT",
-  "message": null,
-  "urgency_score": 1.0,
-  "suppression_active": false,
-  "reasoning_short": "Emergency mode active...
-INFO:     127.0.0.1:49807 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /user_feedback HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /user_feedback HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /user_feedback HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "OPTIONS /user_feedback HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "exercising",
-  "stress_level": "high",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Engaging in int...
-DEBUG AGENT RAW: {
-  "action": "EMERGENCY_ALERT",
-  "message": null,
-  "urgency_score": 0.9,
-  "suppression_active": false,
-  "reasoning_short": "Emergency mode active...
-INFO:     127.0.0.1:49801 - "POST /simulate_step HTTP/1.1" 200 OK
+  "suppressio...
+INFO:     127.0.0.1:59132 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
   "primary_state": "working",
   "stress_level": "low",
@@ -266,110 +91,815 @@ DEBUG AGENT RAW: {
   "active_intent": "Performing routi...
 DEBUG AGENT RAW: {
   "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49805 - "POST /agent_simulate HTTP/1.1" 200 OK
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:59132 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
-  "primary_state": "exercising",
+  "primary_state": "resting",
   "stress_level": "high",
-  "physical_state": "active",
+  "physical_state": "still",
   "hr_trend": "rising",
-  "active_intent": "Increased heart...
+  "active_intent": "Preparing for sleep...
 DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
+  "action": "STAY_SILENT",
   "message": null,
-  "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49795 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "exercising",
-  "stress_level": "high",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Increased heart...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49790 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "GET /session_summary HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "exercising",
-  "stress_level": "high",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Increased physi...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49799 - "POST /simulate_step HTTP/1.1" 200 OK
-RATE LIMIT: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kq2n1dtmfq79w9j067jm9erk` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5336, Requested 824. Please try again in 1.6s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
-DEBUG AGENT RAW: {
-  "action": "EMERGENCY_ALERT",
-  "message": "High heart rate detected during sleep",
-  "urgency_score": 0.9,
-  "suppression_active": false,
-  "reaso...
-INFO:     127.0.0.1:49801 - "POST /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "POST /user_feedback HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "POST /user_feedback HTTP/1.1" 200 OK
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Meditating/bead_counter pr...
+INFO:     127.0.0.1:59132 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
   "primary_state": "resting",
   "stress_level": "high",
   "physical_state": "still",
   "hr_trend": "stable",
-  "active_intent": "User is resting, bu...
+  "active_intent": "Transitioning from ...
 DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": true,
-  "reasoning_short": "User replied 'I'M FINE' af...
-INFO:     127.0.0.1:49790 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "POST /user_feedback HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "POST /user_feedback HTTP/1.1" 200 OK
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:59136 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "high",
+  "physical_state": "still",
+  "hr_trend": "stable",
+  "active_intent": "User is likely focu...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:59139 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "medium",
+  "physical_state": "active",
+  "hr_trend": "stable",
+  "active_intent": "Focused on work ...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:59142 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59198 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59198 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59271 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59271 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59273 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59273 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59351 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59351 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59352 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59768 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59768 - "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59768 - "GET /favicon.ico HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "high",
+  "physical_state": "still",
+  "hr_trend": "stable",
+  "active_intent": "User is likely focu...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:59768 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "medium",
+  "physical_state": "active",
+  "hr_trend": "stable",
+  "active_intent": "Focused on work ...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:59768 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Continuing work ...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:59768 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "medium",
+  "physical_state": "active",
+  "hr_trend": "stable",
+  "active_intent": "Focused on work ...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:59768 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "medium",
+  "physical_state": "still",
+  "hr_trend": "stable",
+  "active_intent": "Focused on work t...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:59769 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "high",
+  "physical_state": "still",
+  "hr_trend": "stable",
+  "active_intent": "Focused on work tas...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:59786 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "stable",
+  "active_intent": "Using a compute...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:59871 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60074 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60074 - "GET /favicon.ico HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
   "primary_state": "working",
   "stress_level": "low",
   "physical_state": "sedentary",
   "hr_trend": "stable",
   "active_intent": "Performing routi...
-RATE LIMIT: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kq2n1dtmfq79w9j067jm9erk` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5409, Requested 617. Please try again in 260ms. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
-INFO:     127.0.0.1:49801 - "POST /agent_simulate HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60076 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60080 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60083 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60086 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60089 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Focusing on work...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60092 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60095 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60104 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60109 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60113 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60113 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60113 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60267 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60267 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60301 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60301 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60303 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60303 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60303 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60303 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60303 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60303 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60303 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60303 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60338 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60338 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60339 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60339 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60451 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60451 - "GET /favicon.ico HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60451 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60451 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60451 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60451 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60451 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60452 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60533 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60533 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60535 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60535 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60596 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60596 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60596 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60596 - "GET /favicon.ico HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60598 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing work-...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60598 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60598 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60598 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60602 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60715 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60715 - "GET /favicon.ico HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "falling",
+  "active_intent": "Transitioning ...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60715 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
   "primary_state": "exercising",
   "stress_level": "high",
   "physical_state": "active",
   "hr_trend": "rising",
-  "active_intent": "Increased heart...
+  "active_intent": "Engaging in phy...
 DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": true,
-  "reasoning_short": "User replied 'I'M FINE' wh...
-INFO:     127.0.0.1:49805 - "POST /simulate_step HTTP/1.1" 200 OK
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60716 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
-  "primary_state": "exercising",
+  "primary_state": "resting",
   "stress_level": "high",
   "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Increased heart...
+  "hr_trend": "falling",
+  "active_intent": "User is transitio...
 DEBUG AGENT RAW: {
   "action": "STAY_SILENT",
   "message": null,
   "urgency_score": 0.0,
   "suppression_active": true,
-  "reasoning_short": "User replied 'I'M FINE' wh...
-INFO:     127.0.0.1:49795 - "POST /simulate_step HTTP/1.1" 200 OK
+  "reasoning_short": "Meditating/bead_counter de...
+INFO:     127.0.0.1:60723 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "medium",
+  "physical_state": "active",
+  "hr_trend": "falling",
+  "active_intent": "Engaging in ...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60728 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "resting",
+  "stress_level": "high",
+  "physical_state": "still",
+  "hr_trend": "falling",
+  "active_intent": "User is transition...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Meditating/bead_counter de...
+INFO:     127.0.0.1:60734 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "medium",
+  "physical_state": "active",
+  "hr_trend": "falling",
+  "active_intent": "Engaging in ...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60737 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "resting",
+  "stress_level": "medium",
+  "physical_state": "sedentary",
+  "hr_trend": "falling",
+  "active_intent": "User is tran...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Meditating/bead_counter de...
+INFO:     127.0.0.1:60740 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "medium",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "Engaging in p...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60743 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing work-...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60748 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "resting",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "falling",
+  "active_intent": "User is resting...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Meditating/bead_counter de...
+INFO:     127.0.0.1:60772 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60828 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60828 - "GET /favicon.ico HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "rising",
+  "active_intent": "User is likely f...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.3,
+  "suppressio...
+INFO:     127.0.0.1:60828 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Meditating/bead_counter de...
+INFO:     127.0.0.1:60830 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": false,
+  "reasoning_short": "Meditating/bead_counter d...
+INFO:     127.0.0.1:60837 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "Engaging in int...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60841 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "Engaging in int...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60850 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "stable",
+  "active_intent": "Engaging in phy...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:60853 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60941 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60941 - "GET /favicon.ico HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "low",
+  "physical_state": "active",
+  "hr_trend": "stable",
+  "active_intent": "Engaging in a st...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.3,
+  "suppressio...
+INFO:     127.0.0.1:60942 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "low",
+  "physical_state": "active",
+  "hr_trend": "stable",
+  "active_intent": "Performing repet...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.3,
+  "suppressio...
+INFO:     127.0.0.1:60949 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "resting",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing a tas...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:60955 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:60959 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:60964 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61163 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61163 - "GET /favicon.ico HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:61163 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:61165 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:61171 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:61180 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:61184 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61184 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61184 - "GET /favicon.ico HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:61187 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "stable",
+  "active_intent": "Performing routi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:61192 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61226 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61226 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61293 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61293 - "GET /favicon.ico HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "resting",
+  "stress_level": "low",
+  "physical_state": "still",
+  "hr_trend": "falling",
+  "active_intent": "User is likely rest...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:61293 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
   "primary_state": "exercising",
   "stress_level": "high",
@@ -379,10 +909,37 @@ DEBUG AGENT RAW: {
 DEBUG AGENT RAW: {
   "action": "STAY_SILENT",
   "message": null,
-  "urgency_score": 0.5,
+  "urgency_score": 0.0,
   "suppression_active": true,
-  "reasoning_short": "User replied 'I'M FINE' wh...
-INFO:     127.0.0.1:49790 - "POST /simulate_step HTTP/1.1" 200 OK
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:61294 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "Increased physi...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "Recent GENTLE_NOTIFY suppr...
+INFO:     127.0.0.1:61301 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "User is engagin...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:61304 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61353 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61353 - "GET /favicon.ico HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
   "primary_state": "exercising",
   "stress_level": "high",
@@ -390,305 +947,47 @@ DEBUG AGENT RAW: {
   "hr_trend": "rising",
   "active_intent": "User is activel...
 DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": true,
-  "reasoning_short": "User replied 'I'M FINE' wh...
-INFO:     127.0.0.1:49807 - "POST /simulate_step HTTP/1.1" 200 OK
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:61353 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "low",
-  "physical_state": "sedentary",
-  "hr_trend": "stable",
-  "active_intent": "Performing routi...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.0,
-  "suppression_active": false,
-  "reasoning_short": "User replied 'I'M FINE' a...
-INFO:     127.0.0.1:49799 - "POST /agent_simulate HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
+  "primary_state": "exercising",
   "stress_level": "high",
   "physical_state": "active",
   "hr_trend": "rising",
-  "active_intent": "Increased heart ra...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.0,
-  "suppression_active": true,
-  "reasoning_short": "User replied 'I'M FINE' an...
-INFO:     127.0.0.1:49801 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "User is actively...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": true,
-  "reasoning_short": "User replied 'I'M FINE' an...
-INFO:     127.0.0.1:49805 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "focusing on work...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.0,
-  "suppression_active": true,
-  "reasoning_short": "User replied 'I'M FINE' an...
-INFO:     127.0.0.1:49795 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /user_feedback HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49790 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49807 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49799 - "OPTIONS /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49801 - "GET /session_summary HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49795 - "GET /session_summary HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "User is actively...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.0,
-  "suppression_active": true,
-  "reasoning_short": "User replied 'I'M FINE' an...
-INFO:     127.0.0.1:49805 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Focusing on work...
-DEBUG AGENT RAW: {
-  "action": "STAY_SILENT",
-  "message": null,
-  "urgency_score": 0.0,
-  "suppression_active": true,
-  "reasoning_short": "User replied 'I'M FINE' an...
-INFO:     127.0.0.1:49790 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "low",
-  "physical_state": "sedentary",
-  "hr_trend": "stable",
-  "active_intent": "Performing routi...
+  "active_intent": "User is activel...
 DEBUG AGENT RAW: {
   "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.7,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49807 - "POST /agent_simulate HTTP/1.1" 200 OK
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:61354 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
-  "primary_state": "working",
+  "primary_state": "exercising",
   "stress_level": "high",
   "physical_state": "active",
   "hr_trend": "rising",
-  "active_intent": "Focusing on work t...
+  "active_intent": "User is activel...
 DEBUG AGENT RAW: {
   "action": "GENTLE_NOTIFY",
-  "message": null,
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
   "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate and str...
-INFO:     127.0.0.1:49799 - "POST /simulate_step HTTP/1.1" 200 OK
+  "suppressio...
+INFO:     127.0.0.1:61359 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
-  "primary_state": "working",
+  "primary_state": "exercising",
   "stress_level": "high",
   "physical_state": "active",
   "hr_trend": "rising",
-  "active_intent": "Increased heart ra...
+  "active_intent": "User is activel...
 DEBUG AGENT RAW: {
   "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.7,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate and str...
-INFO:     127.0.0.1:49801 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "low",
-  "physical_state": "sedentary",
-  "hr_trend": "stable",
-  "active_intent": "Performing routi...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.7,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49795 - "POST /agent_simulate HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "high",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Focusing on work t...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
   "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49805 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Focusing on work...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.7,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49790 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "focusing on work...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49807 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Focus on task at...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49799 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "focusing on work...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49801 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "low",
-  "physical_state": "sedentary",
-  "hr_trend": "stable",
-  "active_intent": "Performing routi...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": false,
-  "reasoning_short": "Stress detected during ...
-INFO:     127.0.0.1:49795 - "POST /agent_simulate HTTP/1.1" 200 OK
-INFO:     127.0.0.1:49805 - "GET /session_summary HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "low",
-  "physical_state": "sedentary",
-  "hr_trend": "stable",
-  "active_intent": "Performing routi...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": false,
-  "reasoning_short": "Stress detected during ...
-INFO:     127.0.0.1:49790 - "POST /agent_simulate HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "low",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Focused on work tas...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "Stress detected during ...
-INFO:     127.0.0.1:49807 - "POST /simulate_step HTTP/1.1" 200 OK
+  "suppressio...
+INFO:     127.0.0.1:61364 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
   "primary_state": "exercising",
   "stress_level": "high",
@@ -697,867 +996,260 @@ DEBUG AGENT RAW: {
   "active_intent": "Engaging in phy...
 DEBUG AGENT RAW: {
   "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": false,
-  "reasoning_short": "Stress detected during ...
-INFO:     127.0.0.1:49799 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "low",
-  "physical_state": "sedentary",
-  "hr_trend": "stable",
-  "active_intent": "Performing routi...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.7,
-  "suppression_active": false,
-  "reasoning_short": "High heart rate during ...
-INFO:     127.0.0.1:49801 - "POST /agent_simulate HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "low",
-  "physical_state": "sedentary",
-  "hr_trend": "stable",
-  "active_intent": "Performing routi...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": false,
-  "reasoning_short": "Stress detected during ...
-INFO:     127.0.0.1:49795 - "POST /agent_simulate HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Focusing on work...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": false,
-  "reasoning_short": "Stress detected during ...
-INFO:     127.0.0.1:49805 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "rising",
-  "active_intent": "Focused on work ...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": false,
-  "reasoning_short": "Stress detected during ...
-INFO:     127.0.0.1:49790 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "falling",
-  "active_intent": "focusing on wor...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": false,
-  "reasoning_short": "Stress detected during ...
-INFO:     127.0.0.1:49807 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "low",
-  "physical_state": "active",
-  "hr_trend": "falling",
-  "active_intent": "Continuing with wo...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
   "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "Stress detected during ...
-INFO:     127.0.0.1:50013 - "POST /simulate_step HTTP/1.1" 200 OK
+  "suppressio...
+INFO:     127.0.0.1:61369 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61667 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61667 - "GET /favicon.ico HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
+  "primary_state": "exercising",
+  "stress_level": "high",
   "physical_state": "active",
   "hr_trend": "rising",
-  "active_intent": "focusing on work...
+  "active_intent": "User is engagin...
 DEBUG AGENT RAW: {
   "action": "GENTLE_NOTIFY",
-  "message": null,
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
   "urgency_score": 0.7,
-  "suppression_active": false,
-  "reasoning_short": "Stress detected during ...
-INFO:     127.0.0.1:50015 - "POST /simulate_step HTTP/1.1" 200 OK
-DEBUG AGENT RAW: {
-  "primary_state": "working",
-  "stress_level": "medium",
-  "physical_state": "active",
-  "hr_trend": "falling",
-  "active_intent": "Focusing on wor...
-DEBUG AGENT RAW: {
-  "action": "GENTLE_NOTIFY",
-  "message": null,
-  "urgency_score": 0.8,
-  "suppression_active": false,
-  "reasoning_short": "Stress detected during ...
-INFO:     127.0.0.1:50017 - "POST /simulate_step HTTP/1.1" 200 OK
-INFO:     127.0.0.1:50020 - "POST /user_feedback HTTP/1.1" 200 OK
+  "suppressio...
+INFO:     127.0.0.1:61667 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
   "primary_state": "resting",
-  "stress_level": "high",
-  "physical_state": "still",
+  "stress_level": "low",
+  "physical_state": "sedentary",
   "hr_trend": "stable",
-  "active_intent": "User is resting wit...
+  "active_intent": "User is resting ...
 DEBUG AGENT RAW: {
   "action": "STAY_SILENT",
   "message": null,
-  "urgency_score": 0.5,
-  "suppression_active": false,
-  "reasoning_short": "User replied 'I'M FINE' w...
-INFO:     127.0.0.1:50021 - "POST /agent_simulate HTTP/1.1" 200 OK
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "User is resting after a pe...
+INFO:     127.0.0.1:61668 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "working",
+  "stress_level": "low",
+  "physical_state": "active",
+  "hr_trend": "stable",
+  "active_intent": "focusing on work",
+...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:61680 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "resting",
+  "stress_level": "low",
+  "physical_state": "still",
+  "hr_trend": "falling",
+  "active_intent": "User is resting aft...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "User is resting after a pe...
+INFO:     127.0.0.1:61684 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "Engaging in phy...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:61687 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61815 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61815 - "GET /favicon.ico HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61836 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61836 - "GET /favicon.ico HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "Engaging in phy...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:61836 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "resting",
+  "stress_level": "low",
+  "physical_state": "still",
+  "hr_trend": "falling",
+  "active_intent": "User is resting aft...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "User is resting after a pe...
+INFO:     127.0.0.1:61837 - "POST /simulate_step HTTP/1.1" 200 OK
 DEBUG AGENT RAW: {
   "primary_state": "resting",
   "stress_level": "high",
   "physical_state": "still",
-  "hr_trend": "stable",
-  "active_intent": "User is experiencin...
+  "hr_trend": "falling",
+  "active_intent": "User is experienci...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "User is resting after a pe...
+INFO:     127.0.0.1:61845 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "falling",
+  "active_intent": "User is engagi...
 DEBUG AGENT RAW: {
   "action": "GENTLE_NOTIFY",
-  "message": null,
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
   "urgency_score": 0.7,
-  "suppression_active": false,
-  "reasoning_short": "High stress level and h...
-INFO:     127.0.0.1:50023 - "POST /agent_simulate HTTP/1.1" 200 OK
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
-    yield
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
-    resp = self._pool.handle_request(req)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
-    raise exc from None
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
-    response = connection.handle_request(
-        pool_request.request
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
-    raise exc
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
-    stream = self._connect(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 124, in _connect
-    stream = self._network_backend.connect_tcp(**kwargs)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
-    with map_exceptions(exc_map):
-         ~~~~~~~~~~~~~~^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
-    raise to_exc(exc) from exc
-httpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1007, in request
-    response = self._client.send(
-        request,
-        stream=stream or self._should_stream_response_body(request=request),
-        **kwargs,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
-    response = self._send_handling_auth(
-        request,
-    ...<2 lines>...
-        history=[],
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
-    response = self._send_handling_redirects(
-        request,
-        follow_redirects=follow_redirects,
-        history=history,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
-    response = self._send_single_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
-    response = transport.handle_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
-    with map_httpcore_exceptions():
-         ~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
-    raise mapped_exc(message) from exc
-httpx.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 46, in safe_agent_call
-    return func(*args, **kwargs)
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 108, in _run_profiler_agent_internal
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-    ...<5 lines>...
-        ]
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/resources/chat/completions.py", line 461, in create
-    return self._post(
-           ~~~~~~~~~~^
-        "/openai/v1/chat/completions",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<45 lines>...
-        stream_cls=Stream[ChatCompletionChunk],
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1284, in post
-    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
-                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1039, in request
-    raise APIConnectionError(request=request) from err
-groq.APIConnectionError: Connection error.
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
-    yield
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
-    resp = self._pool.handle_request(req)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
-    raise exc from None
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
-    response = connection.handle_request(
-        pool_request.request
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
-    raise exc
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
-    stream = self._connect(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 124, in _connect
-    stream = self._network_backend.connect_tcp(**kwargs)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
-    with map_exceptions(exc_map):
-         ~~~~~~~~~~~~~~^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
-    raise to_exc(exc) from exc
-httpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1007, in request
-    response = self._client.send(
-        request,
-        stream=stream or self._should_stream_response_body(request=request),
-        **kwargs,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
-    response = self._send_handling_auth(
-        request,
-    ...<2 lines>...
-        history=[],
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
-    response = self._send_handling_redirects(
-        request,
-        follow_redirects=follow_redirects,
-        history=history,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
-    response = self._send_single_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
-    response = transport.handle_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
-    with map_httpcore_exceptions():
-         ~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
-    raise mapped_exc(message) from exc
-httpx.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 46, in safe_agent_call
-    return func(*args, **kwargs)
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 149, in _run_action_agent_internal
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-    ...<5 lines>...
-        ]
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/resources/chat/completions.py", line 461, in create
-    return self._post(
-           ~~~~~~~~~~^
-        "/openai/v1/chat/completions",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<45 lines>...
-        stream_cls=Stream[ChatCompletionChunk],
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1284, in post
-    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
-                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1039, in request
-    raise APIConnectionError(request=request) from err
-groq.APIConnectionError: Connection error.
-AGENT ERROR: Connection error.
-AGENT ERROR: Connection error.
-INFO:     127.0.0.1:50025 - "POST /agent_simulate HTTP/1.1" 200 OK
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
-    yield
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
-    resp = self._pool.handle_request(req)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
-    raise exc from None
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
-    response = connection.handle_request(
-        pool_request.request
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
-    raise exc
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
-    stream = self._connect(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 124, in _connect
-    stream = self._network_backend.connect_tcp(**kwargs)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
-    with map_exceptions(exc_map):
-         ~~~~~~~~~~~~~~^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
-    raise to_exc(exc) from exc
-httpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1007, in request
-    response = self._client.send(
-        request,
-        stream=stream or self._should_stream_response_body(request=request),
-        **kwargs,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
-    response = self._send_handling_auth(
-        request,
-    ...<2 lines>...
-        history=[],
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
-    response = self._send_handling_redirects(
-        request,
-        follow_redirects=follow_redirects,
-        history=history,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
-    response = self._send_single_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
-    response = transport.handle_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
-    with map_httpcore_exceptions():
-         ~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
-    raise mapped_exc(message) from exc
-httpx.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 46, in safe_agent_call
-    return func(*args, **kwargs)
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 108, in _run_profiler_agent_internal
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-    ...<5 lines>...
-        ]
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/resources/chat/completions.py", line 461, in create
-    return self._post(
-           ~~~~~~~~~~^
-        "/openai/v1/chat/completions",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<45 lines>...
-        stream_cls=Stream[ChatCompletionChunk],
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1284, in post
-    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
-                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1039, in request
-    raise APIConnectionError(request=request) from err
-groq.APIConnectionError: Connection error.
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
-    yield
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
-    resp = self._pool.handle_request(req)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
-    raise exc from None
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
-    response = connection.handle_request(
-        pool_request.request
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
-    raise exc
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
-    stream = self._connect(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 124, in _connect
-    stream = self._network_backend.connect_tcp(**kwargs)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
-    with map_exceptions(exc_map):
-         ~~~~~~~~~~~~~~^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
-    raise to_exc(exc) from exc
-httpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1007, in request
-    response = self._client.send(
-        request,
-        stream=stream or self._should_stream_response_body(request=request),
-        **kwargs,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
-    response = self._send_handling_auth(
-        request,
-    ...<2 lines>...
-        history=[],
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
-    response = self._send_handling_redirects(
-        request,
-        follow_redirects=follow_redirects,
-        history=history,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
-    response = self._send_single_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
-    response = transport.handle_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
-    with map_httpcore_exceptions():
-         ~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
-    raise mapped_exc(message) from exc
-httpx.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 46, in safe_agent_call
-    return func(*args, **kwargs)
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 149, in _run_action_agent_internal
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-    ...<5 lines>...
-        ]
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/resources/chat/completions.py", line 461, in create
-    return self._post(
-           ~~~~~~~~~~^
-        "/openai/v1/chat/completions",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<45 lines>...
-        stream_cls=Stream[ChatCompletionChunk],
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1284, in post
-    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
-                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1039, in request
-    raise APIConnectionError(request=request) from err
-groq.APIConnectionError: Connection error.
-AGENT ERROR: Connection error.
-AGENT ERROR: Connection error.
-INFO:     127.0.0.1:50027 - "POST /agent_simulate HTTP/1.1" 200 OK
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
-    yield
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
-    resp = self._pool.handle_request(req)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
-    raise exc from None
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
-    response = connection.handle_request(
-        pool_request.request
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
-    raise exc
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
-    stream = self._connect(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 124, in _connect
-    stream = self._network_backend.connect_tcp(**kwargs)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
-    with map_exceptions(exc_map):
-         ~~~~~~~~~~~~~~^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
-    raise to_exc(exc) from exc
-httpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1007, in request
-    response = self._client.send(
-        request,
-        stream=stream or self._should_stream_response_body(request=request),
-        **kwargs,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
-    response = self._send_handling_auth(
-        request,
-    ...<2 lines>...
-        history=[],
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
-    response = self._send_handling_redirects(
-        request,
-        follow_redirects=follow_redirects,
-        history=history,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
-    response = self._send_single_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
-    response = transport.handle_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
-    with map_httpcore_exceptions():
-         ~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
-    raise mapped_exc(message) from exc
-httpx.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 46, in safe_agent_call
-    return func(*args, **kwargs)
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 108, in _run_profiler_agent_internal
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-    ...<5 lines>...
-        ]
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/resources/chat/completions.py", line 461, in create
-    return self._post(
-           ~~~~~~~~~~^
-        "/openai/v1/chat/completions",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<45 lines>...
-        stream_cls=Stream[ChatCompletionChunk],
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1284, in post
-    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
-                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1039, in request
-    raise APIConnectionError(request=request) from err
-groq.APIConnectionError: Connection error.
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
-    yield
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
-    resp = self._pool.handle_request(req)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
-    raise exc from None
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
-    response = connection.handle_request(
-        pool_request.request
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
-    raise exc
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
-    stream = self._connect(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 124, in _connect
-    stream = self._network_backend.connect_tcp(**kwargs)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
-    with map_exceptions(exc_map):
-         ~~~~~~~~~~~~~~^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
-    raise to_exc(exc) from exc
-httpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1007, in request
-    response = self._client.send(
-        request,
-        stream=stream or self._should_stream_response_body(request=request),
-        **kwargs,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
-    response = self._send_handling_auth(
-        request,
-    ...<2 lines>...
-        history=[],
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
-    response = self._send_handling_redirects(
-        request,
-        follow_redirects=follow_redirects,
-        history=history,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
-    response = self._send_single_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
-    response = transport.handle_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
-    with map_httpcore_exceptions():
-         ~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
-    raise mapped_exc(message) from exc
-httpx.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 46, in safe_agent_call
-    return func(*args, **kwargs)
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 149, in _run_action_agent_internal
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-    ...<5 lines>...
-        ]
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/resources/chat/completions.py", line 461, in create
-    return self._post(
-           ~~~~~~~~~~^
-        "/openai/v1/chat/completions",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<45 lines>...
-        stream_cls=Stream[ChatCompletionChunk],
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1284, in post
-    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
-                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1039, in request
-    raise APIConnectionError(request=request) from err
-groq.APIConnectionError: Connection error.
-AGENT ERROR: Connection error.
-AGENT ERROR: Connection error.
-INFO:     127.0.0.1:50029 - "POST /agent_simulate HTTP/1.1" 200 OK
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
-    yield
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
-    resp = self._pool.handle_request(req)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
-    raise exc from None
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
-    response = connection.handle_request(
-        pool_request.request
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
-    raise exc
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
-    stream = self._connect(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 124, in _connect
-    stream = self._network_backend.connect_tcp(**kwargs)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
-    with map_exceptions(exc_map):
-         ~~~~~~~~~~~~~~^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
-    raise to_exc(exc) from exc
-httpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1007, in request
-    response = self._client.send(
-        request,
-        stream=stream or self._should_stream_response_body(request=request),
-        **kwargs,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
-    response = self._send_handling_auth(
-        request,
-    ...<2 lines>...
-        history=[],
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
-    response = self._send_handling_redirects(
-        request,
-        follow_redirects=follow_redirects,
-        history=history,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
-    response = self._send_single_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
-    response = transport.handle_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
-    with map_httpcore_exceptions():
-         ~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
-    raise mapped_exc(message) from exc
-httpx.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 46, in safe_agent_call
-    return func(*args, **kwargs)
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 108, in _run_profiler_agent_internal
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-    ...<5 lines>...
-        ]
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/resources/chat/completions.py", line 461, in create
-    return self._post(
-           ~~~~~~~~~~^
-        "/openai/v1/chat/completions",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<45 lines>...
-        stream_cls=Stream[ChatCompletionChunk],
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1284, in post
-    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
-                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1039, in request
-    raise APIConnectionError(request=request) from err
-groq.APIConnectionError: Connection error.
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
-    yield
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 250, in handle_request
-    resp = self._pool.handle_request(req)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
-    raise exc from None
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
-    response = connection.handle_request(
-        pool_request.request
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 101, in handle_request
-    raise exc
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 78, in handle_request
-    stream = self._connect(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_sync/connection.py", line 124, in _connect
-    stream = self._network_backend.connect_tcp(**kwargs)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_backends/sync.py", line 207, in connect_tcp
-    with map_exceptions(exc_map):
-         ~~~~~~~~~~~~~~^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
-    raise to_exc(exc) from exc
-httpcore.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1007, in request
-    response = self._client.send(
-        request,
-        stream=stream or self._should_stream_response_body(request=request),
-        **kwargs,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 914, in send
-    response = self._send_handling_auth(
-        request,
-    ...<2 lines>...
-        history=[],
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 942, in _send_handling_auth
-    response = self._send_handling_redirects(
-        request,
-        follow_redirects=follow_redirects,
-        history=history,
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
-    response = self._send_single_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_client.py", line 1014, in _send_single_request
-    response = transport.handle_request(request)
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 249, in handle_request
-    with map_httpcore_exceptions():
-         ~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Cellar/python@3.13/3.13.1/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 162, in __exit__
-    self.gen.throw(value)
-    ~~~~~~~~~~~~~~^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
-    raise mapped_exc(message) from exc
-httpx.ConnectError: [Errno 8] nodename nor servname provided, or not known
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 46, in safe_agent_call
-    return func(*args, **kwargs)
-  File "/Users/nitinkumar/Desktop/Hackathon/AI_Hackathon/pure_agents.py", line 149, in _run_action_agent_internal
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-    ...<5 lines>...
-        ]
-    )
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/resources/chat/completions.py", line 461, in create
-    return self._post(
-           ~~~~~~~~~~^
-        "/openai/v1/chat/completions",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<45 lines>...
-        stream_cls=Stream[ChatCompletionChunk],
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1284, in post
-    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
-                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/lib/python3.13/site-packages/groq/_base_client.py", line 1039, in request
-    raise APIConnectionError(request=request) from err
-groq.APIConnectionError: Connection error.
-AGENT ERROR: Connection error.
-AGENT ERROR: Connection error.
-INFO:     127.0.0.1:50031 - "POST /agent_simulate HTTP/1.1" 200 OK
+  "suppressio...
+INFO:     127.0.0.1:61850 - "POST /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "resting",
+  "stress_level": "low",
+  "physical_state": "sedentary",
+  "hr_trend": "falling",
+  "active_intent": "User is resting...
+DEBUG AGENT RAW: {
+  "action": "STAY_SILENT",
+  "message": null,
+  "urgency_score": 0.0,
+  "suppression_active": true,
+  "reasoning_short": "User is resting after a pe...
+INFO:     127.0.0.1:61853 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62092 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "medium",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "User is engag...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:62092 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62106 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "resting",
+  "stress_level": "low",
+  "physical_state": "still",
+  "hr_trend": "rising",
+  "active_intent": "User is transitionin...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:62106 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62110 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "Engaging in phy...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:62110 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62116 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "Increased physi...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:62116 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62120 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "Engaging in int...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:62120 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62595 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "User is engagin...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:62595 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62598 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "User is engagin...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.7,
+  "suppressio...
+INFO:     127.0.0.1:62598 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62602 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "User is engagin...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:62602 - "POST /simulate_step HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62606 - "OPTIONS /simulate_step HTTP/1.1" 200 OK
+DEBUG AGENT RAW: {
+  "primary_state": "exercising",
+  "stress_level": "high",
+  "physical_state": "active",
+  "hr_trend": "rising",
+  "active_intent": "Engaging in int...
+DEBUG AGENT RAW: {
+  "action": "GENTLE_NOTIFY",
+  "message": "You've been working hard. Maybe a short 1-minute breathing break?",
+  "urgency_score": 0.8,
+  "suppressio...
+INFO:     127.0.0.1:62606 - "POST /simulate_step HTTP/1.1" 200 OK
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [44200]
+INFO:     Finished server process [92033]

@@ -3,6 +3,7 @@ import time
 import random
 from datetime import datetime
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
@@ -22,6 +23,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/")
+async def get_index():
+    return FileResponse("index.html", headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
+
+@app.get("/favicon.ico")
+async def favicon():
+    return HTTPException(status_code=204)
+
 
 # ── GLOBAL SIMULATION STATE & BRAIN ──
 class SimState:
@@ -54,31 +64,36 @@ except Exception as e:
 # ── SENSOR GENERATOR ──
 def generate_sensor_data(mode: str) -> dict:
     targets = {
-        "normal": { "hr": 72, "spo2": 98.2, "gsr": 2.4, "temp": 36.6, "accel": 0.45 },
-        "stress": { "hr": 108, "spo2": 96.8, "gsr": 7.2, "temp": 37.1, "accel": 0.08 },
-        "emergency": { "hr": 134, "spo2": 93.5, "gsr": 13.8, "temp": 38.7, "accel": 0.02 }
+        "a": { "hr": 108, "spo2": 97.0, "gsr": 0.72, "temp": 37.2, "accel": 0.01, "app": "work" },
+        "b": { "hr": 131, "spo2": 94.0, "gsr": 0.91, "temp": 38.9, "accel": 0.02, "app": "sleep" },
+        "c": { "hr": 79,  "spo2": 98.0, "gsr": 0.31, "temp": 36.6, "accel": 0.85, "app": "maps" },
+        "d": { "hr": 52,  "spo2": 99.0, "gsr": 0.12, "temp": 36.1, "accel": 0.01, "app": "sleep" },
+        "e": { "hr": 165, "spo2": 96.0, "gsr": 0.95, "temp": 38.2, "accel": 1.80, "app": "fitness" },
+        "f": { "hr": 62,  "spo2": 100.0, "gsr": 0.08, "temp": 36.4, "accel": 0.01, "app": "meditation" },
+        "g": { "hr": 88,  "spo2": 97.0, "gsr": 0.45, "temp": 36.8, "accel": 0.45, "app": "podcasts" },
+        "h": { "hr": 95,  "spo2": 96.0, "gsr": 0.82, "temp": 37.0, "accel": 0.15, "app": "maps" }
     }
     
-    t = targets.get(mode, targets["normal"])
+    t = targets.get(mode, targets["a"])
     lerp = lambda prev, target, factor: prev + (target - prev) * factor
     
     noise = {
-        "hr":    random.gauss(0, 2.5),
-        "spo2":  random.gauss(0, 0.3),
-        "gsr":   random.gauss(0, 0.4),
-        "temp":  random.gauss(0, 0.08),
-        "accel": random.gauss(0, 0.03),
+        "hr":    random.gauss(0, 1.5),
+        "spo2":  random.gauss(0, 0.2),
+        "gsr":   random.gauss(0, 0.05),
+        "temp":  random.gauss(0, 0.05),
+        "accel": random.gauss(0, 0.02),
     }
     
-    hr    = lerp(state.prev_hr,    t["hr"],    0.18) + noise["hr"]
-    spo2  = lerp(state.prev_spo2,  t["spo2"],  0.12) + noise["spo2"]
-    gsr   = lerp(state.prev_gsr,   t["gsr"],   0.15) + noise["gsr"]
-    temp  = lerp(state.prev_temp,  t["temp"],  0.10) + noise["temp"]
+    hr    = lerp(state.prev_hr,    t["hr"],    0.15) + noise["hr"]
+    spo2  = lerp(state.prev_spo2,  t["spo2"],  0.10) + noise["spo2"]
+    gsr   = lerp(state.prev_gsr,   t["gsr"],   0.10) + noise["gsr"]
+    temp  = lerp(state.prev_temp,  t["temp"],  0.08) + noise["temp"]
     accel = lerp(state.prev_accel, t["accel"], 0.20) + abs(noise["accel"])
     
     hr    = max(40, min(200, hr))
     spo2  = max(85, min(100, spo2))
-    gsr   = max(0.1, min(25.0, gsr))
+    gsr   = max(0.01, min(5.0, gsr))
     temp  = max(35.0, min(42.0, temp))
     accel = max(0.0, min(3.0, accel))
     
@@ -89,34 +104,43 @@ def generate_sensor_data(mode: str) -> dict:
     state.prev_accel = accel
     state.sim_cycle += 1
     
-    # Map 'app' context for the LLM based on mode
-    app_context = "idle"
-    if mode == "stress": app_context = "work"
-    if mode == "normal": app_context = "maps"
-    
-    data = {
-        "hr":           round(hr, 1),
-        "spo2":         round(spo2, 1),
-        "gsr":          round(gsr, 2),
-        "temp":         round(temp, 1),
-        "accel":        round(accel, 3),
-        "movement":     round(accel, 3), # Needed by LLM profiler
-        "app":          app_context,     # Needed by LLM profiler
-        "battery":      78,
-        "mode":         mode,
-        "cycle":        state.sim_cycle,
-        "timestamp":    datetime.now().isoformat(),
-        "hr_critical":  hr > 120,
-        "spo2_low":     spo2 < 95,
-        "is_still":     accel < 0.05,
-        "temp_high":    temp > 38.0,
+    # STAGE 2: GALAXY WATCH BLE PACKET FORMAT
+    ble_packet = {
+        "ble_header": {
+            "device_id": "GALAXY-WATCH-4-BT",
+            "rssi": random.randint(-65, -45),
+            "protocol": "GATT",
+            "service_uuid": "0000180d-0000-1000-8000-00805f9b34fb"
+        },
+        "payload": {
+            "heart_rate": round(hr, 1),
+            "spo2": round(spo2, 1),
+            "gsr": round(gsr, 2),
+            "skin_temp": round(temp, 1),
+            "accel": {
+                "x": round(random.uniform(-0.1, 0.1), 3),
+                "y": round(random.uniform(-0.1, 0.1), 3),
+                "z": round(0.98 + random.uniform(-0.02, 0.02), 3),
+                "mag": round(accel, 3)
+            },
+            "battery": 78
+        },
+        "metadata": {
+            "timestamp": int(time.time() * 1000),
+            "cycle": state.sim_cycle,
+            "mode": mode,
+            "app": t["app"]
+        }
     }
-    return data
+    return ble_packet
 
 
 # ── API ENDPOINTS ──
 class SimulateRequest(BaseModel):
     mode: str
+    sensor_data: dict = None
+    window_stats: dict = None
+    baseline: dict = None
 
 def map_to_ui_format(output: dict) -> dict:
     if output.get("status") == "warming_up":
@@ -126,107 +150,76 @@ def map_to_ui_format(output: dict) -> dict:
             "profiler_output": {
                 "state_headline": "Warming Up...",
                 "confidence_pct": 0,
-                "social_risk_pct": 0,
-                "interruption_cost_pct": 0,
                 "reasoning_trace": [f"Collecting data... {output.get('readings')}/3"],
-                "action_decision": "STAY SILENT",
-                "urgency_score": 0.0,
-                "override_flag": "NONE",
-                "watch_status_text": "Normal",
-                "watch_notification_text": None,
-                "show_eye_icon": True,
-                "radar_values": {"hr_risk": 0, "social": 0, "env": 0, "battery": 0, "time_risk": 0, "accel": 0},
-                "latency": "0ms",
                 "radar_values": {"hr_risk": 0.1, "social": 0.1, "env": 0.5, "battery": 0.2, "time_risk": 0.3, "accel": 0.1}
             },
             "action_output": {
                 "decision": "SUPPRESS",
-                "action_type": "LOG_ONLY",
+                "action_type": "SILENT_LOG",
                 "urgency": 0.0,
-                "override_flag": "NONE",
                 "reasoning_steps": ["Warming up context window..."]
             },
             "source": "agent"
         }
     
     try:
-        sensor_data = output.get("sensor", {})
+        sensor_dict = output.get("sensor", {})
+        payload = sensor_dict.get("payload", {})
+        metadata = sensor_dict.get("metadata", {})
         profiler = output.get("profiler", {})
         decision = output.get("decision", {})
         
+        # Flatten for UI
+        sensor_data = {
+            "hr": payload.get("heart_rate") or 72,
+            "spo2": payload.get("spo2") or 98,
+            "gsr": payload.get("gsr") or 0.5,
+            "temp": payload.get("skin_temp") or 36.6,
+            "accel": payload.get("accel", {}).get("mag") or 0.0,
+            "bat": payload.get("battery") or 100,
+            "src": "LIVE-BLE",
+            "app": metadata.get("app") or "idle"
+        }
+
         state_headline = str(profiler.get("primary_state", "unknown")).replace("_", " ").title()
         
-        # Robust confidence parsing
-        conf = profiler.get("confidence", 0.0)
-        try:
-            confidence_pct = int(float(conf) * 100)
-        except (ValueError, TypeError):
-            confidence_pct = 0
-        
-        # Map Action
-        action_str = str(decision.get("action", "STAY_SILENT"))
-        is_suppress = action_str in ["STAY_SILENT", "LOG_ONLY"]
-        
-        if is_suppress:
+        # Map 6 Actions to 3 UI Categories for Style consistency, but keep raw type
+        action_str = str(decision.get("action", "SILENT_LOG"))
+        if action_str in ["SILENT_LOG", "HAPTIC_ONLY"]:
             mapped_decision = "SUPPRESS"
-        elif action_str == "EMERGENCY_ALERT":
-            mapped_decision = "INTERRUPT"
-        else:
+        elif action_str in ["GENTLE_NOTIFY", "ACTIVE_ALERT", "CAREGIVER_PING"]:
             mapped_decision = "NOTIFY"
-        
-        # Override flags
-        override_flag = "NONE"
-        if decision.get("suppression_active"):
-            supp_reason = str(decision.get("suppression_reason", "")).lower()
-            if any(x in supp_reason for x in ["sleep", "meditat", "pray", "bead"]):
-                override_flag = "SOCIAL CONTEXT OVERRIDE"
-            elif "navigat" in supp_reason:
-                override_flag = "NAVIGATION OVERRIDE"
-        elif action_str == "EMERGENCY_ALERT":
-            override_flag = "EMERGENCY PROTOCOL"
+        else:
+            mapped_decision = "INTERRUPT"
             
+        # Build Rich Reasoning Trace
         reasoning_trace = [
-            f"→ State: {state_headline}",
-            f"→ Intent: {profiler.get('active_intent', 'unknown')}",
-            f"→ {decision.get('reasoning_short', 'Analyzing telemetry...')}"
+            f"PROFILER_AGENT: State = {state_headline} ({int(profiler.get('state_confidence',0)*100)}%)",
+            f"PROFILER_AGENT: Environment = {profiler.get('environment', 'unknown')} | {profiler.get('time_context', 'unknown')}",
+            f"PROFILER_AGENT: Next State = {profiler.get('predicted_next_state', 'unknown')} ({int(profiler.get('prediction_confidence',0)*100)}%)",
+            f"PROFILER_AGENT: Cost = {profiler.get('interruption_cost', 0.5)} | Stakes = {profiler.get('social_stakes', 'LOW')}",
+            f"PROFILER_AGENT: Reasoning = {profiler.get('reasoning', 'Analyzing...')}"
         ]
         
-        try:
-            urgency_score = float(decision.get("urgency_score", 0.0))
-        except (ValueError, TypeError):
-            urgency_score = 0.0
-        
-        # Heuristic for radar
-        ic = str(decision.get("interruption_cost", "low")).lower()
-        interruption_cost_pct = 95 if ic == "critical" else 75 if ic == "high" else 40 if ic == "medium" else 10
-        social_risk_pct = 90 if override_flag == "SOCIAL CONTEXT OVERRIDE" else 10
-        
-        hr_val = sensor_data.get("hr", 72)
-        hr_risk = min(1.0, max(0, (hr_val - 60) / 80))
+        urgency_score = float(decision.get("urgency_score", 0.0))
         
         radar_values = {
-            "hr_risk": round(hr_risk, 2),
-            "social": round(social_risk_pct / 100, 2),
+            "hr_risk": round(float(decision.get("health_risk_score", 0.3)), 2),
+            "social": round(float(profiler.get("interruption_cost", 0.5)), 2),
             "env": 0.5,
-            "battery": round(1 - sensor_data.get("battery", 100) / 100, 2),
+            "battery": round(1 - float(sensor_data["bat"]) / 100, 2),
             "time_risk": 0.3,
-            "accel": round(min(1.0, float(sensor_data.get("accel", 0))), 2)
+            "accel": round(min(1.0, float(sensor_data["accel"])), 2)
         }
         
         profiler_output = {
             "state_headline": state_headline,
-            "confidence_pct": confidence_pct,
-            "social_risk_pct": social_risk_pct,
-            "interruption_cost_pct": interruption_cost_pct,
+            "confidence_pct": int(profiler.get("state_confidence", 0.5) * 100),
             "reasoning_trace": reasoning_trace,
-            "action_decision": "STAY SILENT" if is_suppress else ("EMERGENCY" if action_str == "EMERGENCY_ALERT" else "NOTIFICATION"),
             "urgency_score": urgency_score,
-            "override_flag": override_flag,
-            "watch_status_text": "Silent" if is_suppress else ("ALERT" if action_str == "EMERGENCY_ALERT" else "NOTICE"),
-            "watch_notification_text": decision.get("message") if not is_suppress else None,
-            "show_eye_icon": is_suppress,
             "radar_values": radar_values,
-            "latency": f"{output.get('total_latency_ms', 0)}ms"
+            "predicted_next": profiler.get("predicted_next_state", "unknown"),
+            "cost_score": profiler.get("interruption_cost", 0.5)
         }
         
         return {
@@ -236,11 +229,17 @@ def map_to_ui_format(output: dict) -> dict:
                 "decision": mapped_decision,
                 "action_type": action_str,
                 "urgency": urgency_score,
-                "override_flag": override_flag,
-                "reasoning_steps": [decision.get("reasoning_full", "")]
+                "override_flag": decision.get("override_applied") or "NONE",
+                "notification_text": decision.get("notification_text"),
+                "reasoning_steps": [f"ACTION_AGENT: {decision.get('reasoning', '')}"]
             },
             "source": "agent"
         }
+    except Exception as e:
+        print(f"Error in map_to_ui_format: {e}")
+        import traceback
+        traceback.print_exc()
+        return {"error": "Mapping error", "status": "error"}
     except Exception as e:
         print(f"Error in map_to_ui_format: {e}")
         import traceback
@@ -251,7 +250,29 @@ def map_to_ui_format(output: dict) -> dict:
 @app.post("/simulate_step")
 async def simulate_step(req: SimulateRequest):
     try:
-        sensor_data = generate_sensor_data(req.mode)
+        # Prefer client data (real sensors) over server-generated data
+        if req.sensor_data and req.sensor_data.get('hr') is not None:
+            sensor_data = {
+                "ble_header": {"device_id": "REAL-SENSOR-MERGE", "rssi": -50},
+                "payload": {
+                    "heart_rate": req.sensor_data.get("hr"),
+                    "spo2": req.sensor_data.get("spo2"),
+                    "gsr": req.sensor_data.get("gsr"),
+                    "skin_temp": req.sensor_data.get("temp"),
+                    "accel": {"mag": req.sensor_data.get("accel")},
+                    "battery": req.sensor_data.get("bat")
+                },
+                "metadata": {
+                    "timestamp": int(time.time() * 1000),
+                    "app": req.sensor_data.get("app", "unknown"),
+                    "mode": req.mode
+                }
+            }
+            # Update state to keep LERPing smooth if we switch back to sim
+            state.prev_hr = req.sensor_data.get("hr")
+            state.prev_accel = req.sensor_data.get("accel")
+        else:
+            sensor_data = generate_sensor_data(req.mode)
         
         # Handle Mode Switches
         if req.mode != state.last_mode:

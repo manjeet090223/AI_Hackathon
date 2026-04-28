@@ -23,7 +23,7 @@ class RateLimiter:
         return False
 
 # Global Rate Limiter
-rate_limiter = RateLimiter(max_per_minute=100)
+rate_limiter = RateLimiter(max_per_minute=300)
 
 # Initialize Groq client
 client = None
@@ -55,55 +55,130 @@ def safe_agent_call(func, *args, fallback: dict, **kwargs) -> dict:
 
 PROFILER_FALLBACK = {
   "primary_state": "unknown",
-  "stress_level": "unknown", 
-  "physical_state": "sedentary",
-  "hr_trend": "stable",
-  "location_context": "unknown",
+  "state_confidence": 0.0,
+  "stress_level": "low", 
+  "stress_confidence": 0.0,
   "active_intent": "unknown",
-  "confidence": 0.0,
-  "anomalies": [],
-  "risk_factors": [],
-  "suppression_reasons": ["agent_unavailable"],
-  "reasoning": "Profiler agent unavailable, defaulting to safe mode"
+  "environment": "unknown",
+  "time_context": "unknown",
+  "interruption_cost": 0.5,
+  "social_stakes": "LOW",
+  "hrv_trend": "stable",
+  "predicted_next_state": "unknown",
+  "prediction_confidence": 0.0,
+  "reasoning": "Profiler fallback active"
 }
 
 ACTION_FALLBACK = {
-  "action": "LOG_ONLY",
-  "message": None,
+  "action": "SILENT_LOG",
   "urgency_score": 0.0,
-  "suppression_active": True,
-  "suppression_reason": "agent_unavailable",
-  "interruption_cost": "high",
-  "escalation_level": 0,
-  "next_check_seconds": 10,
-  "reasoning_short": "Agent unavailable, logging only",
-  "reasoning_full": "System fell back to safe mode.",
-  "next_steps": []
+  "health_risk_score": 0.0,
+  "interruption_cost_score": 0.5,
+  "override_applied": "AGENT_FALLBACK",
+  "notification_text": None,
+  "escalation_applied": False,
+  "reasoning": "Action fallback active"
 }
 
 def _run_profiler_agent_internal(telemetry_window: list[dict]) -> dict:
-    window_text = "\n".join([
-        f"T-{len(telemetry_window)-1-i}: HR={r.get('hr')}bpm SpO2={r.get('spo2')}% "
-        f"GSR={r.get('gsr')} Temp={r.get('temp')}°C "
-        f"Accel={r.get('accel')} App={r.get('app')} Battery={r.get('battery')}%"
-        for i, r in enumerate(telemetry_window)
-    ])
+    # Extract telemetry arrays for the prompt
+    hr_array = [r.get('payload', {}).get('heart_rate') for r in telemetry_window]
+    spo2_array = [r.get('payload', {}).get('spo2') for r in telemetry_window]
+    accel_array = [r.get('payload', {}).get('accel', {}).get('mag') for r in telemetry_window]
     
-    system_prompt = """
-You are the Profiler Agent in a wearable health AI system.
-Understand user state based on 30s sensor data.
+    # Simple HRV approximation from HR fluctuations if not present
+    hrv_val = 40 # Default
+    if len(hr_array) > 1:
+        diffs = [abs(hr_array[i] - hr_array[i-1]) for i in range(1, len(hr_array))]
+        hrv_val = sum(diffs) / len(diffs) * 10 # Rough scaling
 
-Analyze the sensor data and output ONLY raw JSON. NO CONVERSATION. NO EXPLANATIONS.
-JSON SCHEMA:
-{
-  "primary_state": "working | resting | meditating | exercising | emergency",
-  "stress_level": "low | medium | high",
-  "physical_state": "sedentary | active | still",
-  "hr_trend": "stable | rising | falling",
-  "active_intent": "description",
-  "confidence": 0.95,
-  "reasoning": "Brief explanation"
-}
+    latest = telemetry_window[-1]
+    payload = latest.get('payload', {})
+    metadata = latest.get('metadata', {})
+    
+    # Time context
+    hour = datetime.fromtimestamp(metadata.get('timestamp', time.time()*1000)/1000).hour
+    time_ctx = "sleep" if (hour < 6 or hour > 22) else "morning" if hour < 12 else "work" if hour < 18 else "evening"
+
+    system_prompt = f"""
+You are a wearable health context profiler.
+Analyze this 30-second sensor window and return ONLY valid JSON.
+
+SENSOR WINDOW (last 10 readings):
+HR values: {hr_array}
+SpO2 values: {spo2_array}
+Motion magnitude: {accel_array}
+Skin temp: {payload.get('skin_temp')}°C
+Active app: {metadata.get('app')}
+Time of day: {time_ctx} (Hour: {hour})
+Battery: {payload.get('battery')}%
+
+Return this exact JSON — no other text:
+{{
+ "primary_state": "working | resting | meditating | exercising | emergency",
+ "state_confidence": float 0-1,
+ "stress_level": "low"|"medium"|"high"|"critical",
+ "stress_confidence": float 0-1,
+ "active_intent": string,
+ "environment": "home"|"office"|"commute"|"unknown",
+ "time_context": "sleep"|"morning"|"work"|"evening",
+ "interruption_cost": float 0-1,
+ "social_stakes": "LOW"|"MEDIUM"|"HIGH"|"CRITICAL",
+ "hrv_trend": "rising"|"stable"|"falling",
+ "predicted_next_state": string,
+ "prediction_confidence": float 0-1,
+ "reasoning": string max 2 sentences
+}}
+"""
+    response = client.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        temperature=0.1,
+        max_tokens=500,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": "Analyze latest window."}
+        ]
+    )
+    raw = response.choices[0].message.content.strip()
+    print(f"DEBUG PROFILER RAW: {raw[:150]}...")
+    return json.loads(extract_json(raw))
+
+def run_profiler_agent(telemetry_window: list[dict], fallback_cache: dict = None) -> dict:
+    return safe_agent_call(_run_profiler_agent_internal, telemetry_window, fallback=fallback_cache or PROFILER_FALLBACK)
+
+def _run_action_agent_internal(latest_sensor: dict, user_profile: dict, user_note: str, decision_history: list[dict], suppress_count: int) -> dict:
+    history_text = "\n".join([
+        f"- {d['action']} ({d.get('reasoning_short', 'No detail')})"
+        for d in decision_history[-5:]
+    ]) if decision_history else "No previous decisions."
+    
+    system_prompt = f"""
+You are a wearable AI action decision engine.
+Your job: decide whether to interrupt the user.
+
+PROFILER OUTPUT: {json.dumps(user_profile)}
+LATEST SENSORS: hr={latest_sensor.get('payload', {}).get('heart_rate')}, spo2={latest_sensor.get('payload', {}).get('spo2')}, accel={latest_sensor.get('payload', {}).get('accel', {}).get('mag')}
+DECISION HISTORY (last 5): {history_text}
+CONSECUTIVE SUPPRESSES: {suppress_count}
+SESSION CONTEXT: {user_note}
+
+PRIORITY RULES (in order):
+1. If primary_state is meditating or bead_counter → SILENT_LOG
+2. If hr > 130 AND accel < 0.1 AND (time_context = sleep OR primary_state = emergency) → EMERGENCY_CALL
+3. If interruption_cost > 0.7 AND health_risk < 0.4 → SILENT_LOG
+4. If suppress_count >= 3 AND urgency rising → escalate one level
+5. Compare health_risk vs interruption_cost → decide
+
+Return this exact JSON:
+{{
+ "action": "SILENT_LOG"|"HAPTIC_ONLY"|"GENTLE_NOTIFY"|"ACTIVE_ALERT"|"CAREGIVER_PING"|"EMERGENCY_CALL",
+ "urgency_score": float 0-1,
+ "health_risk_score": float 0-1,
+ "interruption_cost_score": float 0-1,
+ "notification_text": "Polite, empathetic message (only for GENTLE_NOTIFY/ACTIVE_ALERT, e.g., 'Remember to keep your shoulders relaxed')",
+ "escalation_applied": boolean,
+ "reasoning": string max 3 sentences
+}}
 """
     response = client.chat.completions.create(
         model="llama-3.1-8b-instant",
@@ -111,61 +186,17 @@ JSON SCHEMA:
         max_tokens=400,
         messages=[
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": f"SENSOR DATA:\n{window_text}"}
+            {"role": "user", "content": "Determine action."}
         ]
     )
     raw = response.choices[0].message.content.strip()
-    print(f"DEBUG {"AGENT"} RAW: {raw[:150]}...")
+    print(f"DEBUG ACTION RAW: {raw[:150]}...")
     return json.loads(extract_json(raw))
 
-def run_profiler_agent(telemetry_window: list[dict], fallback_cache: dict = None) -> dict:
-    return safe_agent_call(_run_profiler_agent_internal, telemetry_window, fallback=fallback_cache or PROFILER_FALLBACK)
+def run_action_agent(latest_sensor: dict, user_profile: dict, user_note: str, decision_history: list[dict], suppress_count: int, fallback_cache: dict = None) -> dict:
+    return safe_agent_call(_run_action_agent_internal, latest_sensor, user_profile, user_note, decision_history, suppress_count, fallback=fallback_cache or ACTION_FALLBACK)
 
-def _run_action_agent_internal(latest_sensor: dict, user_profile: dict, user_note: str, decision_history: list[dict]) -> dict:
-    history_text = "\n".join([
-        f"- {d['action']} ({d['reasoning_short']})"
-        for d in decision_history[-5:]
-    ]) if decision_history else "No previous decisions."
-    
-    system_prompt = """
-You are the Action Agent for a wearable AI. Your job is to decide the best course of action.
-
-PRIORITY RULES:
-1. Meditating/bead_counter -> STAY_SILENT (Respect the user's flow).
-2. Emergency (e.g., 2AM + Critical HR + Still) -> EMERGENCY_ALERT.
-3. Stress during work/activity -> GENTLE_NOTIFY.
-
-TONE & STYLE FOR NOTIFICATIONS (GENTLE_NOTIFY):
-- Be extremely polite, empathetic, and advisory.
-- Instead of "Stress detected", say something like "You've been working hard. Maybe a short 1-minute breathing break?"
-- Use phrases like "How about...", "It might help to...", "Take a moment to...".
-
-Output ONLY raw JSON. NO CHATTER.
-JSON SCHEMA:
-{
-  "action": "STAY_SILENT | GENTLE_NOTIFY | EMERGENCY_ALERT",
-  "message": "Polite advisory text (for GENTLE_NOTIFY) or null",
-  "urgency_score": 0.5,
-  "suppression_active": false,
-  "reasoning_short": "summary",
-  "reasoning_full": "logic"
-}
-"""
-    response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-        temperature=0.1,
-        max_tokens=350,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": f"SENSOR: {latest_sensor}\nPROFILE: {user_profile}\nNOTE: {user_note}\nHISTORY: {history_text}"}
-        ]
-    )
-    raw = response.choices[0].message.content.strip()
-    print(f"DEBUG {"AGENT"} RAW: {raw[:150]}...")
-    return json.loads(extract_json(raw))
-
-def run_action_agent(latest_sensor: dict, user_profile: dict, user_note: str, decision_history: list[dict], fallback_cache: dict = None) -> dict:
-    return safe_agent_call(_run_action_agent_internal, latest_sensor, user_profile, user_note, decision_history, fallback=fallback_cache or ACTION_FALLBACK)
+from datetime import datetime
 
 class WearableAgentBrain:
     def __init__(self):
@@ -176,6 +207,8 @@ class WearableAgentBrain:
         self.profiler_cache = None
         self.action_cache = None
         self.llm_enabled = bool(client)
+        self.consecutive_suppress_count = 0
+        self.last_state = None
         
     def set_feedback(self, feedback: str):
         self.user_feedback = feedback
@@ -189,17 +222,29 @@ class WearableAgentBrain:
         if len(self.telemetry_window) < 3:
             return {"status": "warming_up", "readings": len(self.telemetry_window)}
         
-        # AGENT 1
+        # AGENT 1: Profiler
         user_profile = run_profiler_agent(list(self.telemetry_window), fallback_cache=None)
         
-        # AGENT 2
+        # Track state consistency
+        current_state = user_profile.get("primary_state")
+        if current_state != self.last_state:
+            self.consecutive_suppress_count = 0
+            self.last_state = current_state
+
+        # AGENT 2: Action
         feedback_note = f"USER JUST REPLIED: {self.user_feedback}" if self.user_feedback else ""
-        decision = run_action_agent(sensor_reading, user_profile, feedback_note, self.decision_history, fallback_cache=None)
+        decision = run_action_agent(sensor_reading, user_profile, feedback_note, self.decision_history, self.consecutive_suppress_count, fallback_cache=None)
         
+        # Update suppression memory
+        if decision.get("action") == "SILENT_LOG":
+            self.consecutive_suppress_count += 1
+        else:
+            self.consecutive_suppress_count = 0
+
         self.decision_history.append({
             "timestamp": sensor_reading.get("timestamp"),
             "action": decision.get("action"),
-            "reasoning_short": decision.get("reasoning_short"),
+            "reasoning_short": decision.get("reasoning", "No detail")[:50],
             "urgency_score": decision.get("urgency_score")
         })
         if len(self.decision_history) > 20:
@@ -219,16 +264,19 @@ class WearableAgentBrain:
         self.feedback_time = 0
         self.profiler_cache = None
         self.action_cache = None
+        self.consecutive_suppress_count = 0
+        self.last_state = None
 
     def get_session_summary(self):
         actions = [d["action"] for d in self.decision_history]
-        suppressed = sum(1 for a in actions if a in ["STAY_SILENT", "LOG_ONLY"])
-        alerted = sum(1 for a in actions if a in ["EMERGENCY_ALERT", "URGENT_NOTIFY", "GENTLE_NOTIFY"])
+        suppressed = sum(1 for a in actions if a == "SILENT_LOG")
+        alerted = sum(1 for a in actions if a != "SILENT_LOG")
         total = len(actions)
         return {
             "total_suppressed": suppressed,
             "total_alerted": alerted,
             "suppression_rate": f"{round(suppressed/total*100)}%" if total > 0 else "0%",
-            "most_common_state": "N/A",
+            "most_common_state": self.last_state or "N/A",
             "current_trend": "stable"
         }
+
