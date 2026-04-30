@@ -355,5 +355,5 @@ async def agent_simulate(req: dict):
 
 if __name__ == "__main__":
     import uvicorn
-    print("🚀 Starting Wearable AI Local Sim Server (Groq Edition) on http://localhost:8000")
+    print("🚀 Starting Wearable AI Server (Groq Edition) on https://ai-hackathon-watch.onrender.com")
     uvicorn.run(app, host="0.0.0.0", port=8000)

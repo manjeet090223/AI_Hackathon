@@ -2420,7 +2420,7 @@
         const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
         const urlParams = new URLSearchParams(window.location.search);
-        const apiHost = urlParams.get('api') || window.location.hostname || 'localhost';
+        const apiHost = urlParams.get('api') || 'https://ai-hackathon-watch.onrender.com';
         const apiBase = apiHost.startsWith('http') ? apiHost : `http://${apiHost}:8000`;
 
         // Removed optimistic UI updates to keep state persistent
@@ -2884,7 +2884,7 @@
     async function cancelEmergency() {
       clearEmergency();
       const urlParams = new URLSearchParams(window.location.search);
-      const apiHost = urlParams.get('api') || window.location.hostname || 'localhost';
+      const apiHost = urlParams.get('api') || 'https://ai-hackathon-watch.onrender.com';
       const apiBase = apiHost.startsWith('http') ? apiHost : `http://${apiHost}:8000`;
       try {
         await fetch(`${apiBase}/user_feedback`, {
