@@ -100,34 +100,28 @@ def _run_profiler_agent_internal(telemetry_window: list[dict]) -> dict:
     hour = datetime.fromtimestamp(metadata.get('timestamp', time.time()*1000)/1000).hour
     time_ctx = "sleep" if (hour < 6 or hour > 22) else "morning" if hour < 12 else "work" if hour < 18 else "evening"
 
-    system_prompt = f"""
-You are a wearable health context profiler.
-Analyze this 30-second sensor window and return ONLY valid JSON.
+    system_prompt = f"""You are a Wearable AI Profiler. Return JSON only.
 
-SENSOR WINDOW (last 10 readings):
-HR values: {hr_array}
-SpO2 values: {spo2_array}
-Motion magnitude: {accel_array}
-Skin temp: {payload.get('skin_temp')}°C
-Active app: {metadata.get('app')}
-Time of day: {time_ctx} (Hour: {hour})
-Battery: {payload.get('battery')}%
+CRITICAL RULES:
+- If hr > 135 AND accel < 0.05: primary_state = "emergency"
+- If accel > 0.5 AND hr > 110: primary_state = "exercising"
+- If app = "meditation": primary_state = "meditating"
+- If hr < 70 AND accel < 0.05: primary_state = "resting"
 
-Return this exact JSON — no other text:
+INPUT:
+Time: {time_ctx} | App: {metadata.get('app')}
+HR: {hr_array}
+Accel: {accel_array}
+
+JSON Format:
 {{
- "primary_state": "working | resting | meditating | exercising | emergency",
- "state_confidence": float 0-1,
- "stress_level": "low"|"medium"|"high"|"critical",
- "stress_confidence": float 0-1,
- "active_intent": string,
- "environment": "home"|"office"|"commute"|"unknown",
- "time_context": "sleep"|"morning"|"work"|"evening",
- "interruption_cost": float 0-1,
- "social_stakes": "LOW"|"MEDIUM"|"HIGH"|"CRITICAL",
- "hrv_trend": "rising"|"stable"|"falling",
- "predicted_next_state": string,
- "prediction_confidence": float 0-1,
- "reasoning": string max 2 sentences
+ "primary_state": "working|resting|meditating|exercising|emergency",
+ "state_confidence": 0-1,
+ "environment": "home"|"office"|"gym"|"unknown",
+ "predicted_next_state": "string",
+ "interruption_cost": 0-1,
+ "social_stakes": "LOW"|"HIGH",
+ "reasoning": "Max 2 sentences"
 }}
 """
     response = client.chat.completions.create(
@@ -153,31 +147,28 @@ def _run_action_agent_internal(latest_sensor: dict, user_profile: dict, user_not
     ]) if decision_history else "No previous decisions."
     
     system_prompt = f"""
-You are a wearable AI action decision engine.
-Your job: decide whether to interrupt the user.
+You are a wearable AI action engine. Return JSON only.
 
-PROFILER OUTPUT: {json.dumps(user_profile)}
-LATEST SENSORS: hr={latest_sensor.get('payload', {}).get('heart_rate')}, spo2={latest_sensor.get('payload', {}).get('spo2')}, accel={latest_sensor.get('payload', {}).get('accel', {}).get('mag')}
-DECISION HISTORY (last 5): {history_text}
-CONSECUTIVE SUPPRESSES: {suppress_count}
-SESSION CONTEXT: {user_note}
+EMERGENCY OVERRIDE:
+- If primary_state = "emergency": action = "EMERGENCY_CALL", urgency = 0.98
+- Ignore time_context for emergencies. Cardiac events are always urgent.
 
-PRIORITY RULES (in order):
-1. If primary_state is meditating or bead_counter → SILENT_LOG
-2. If hr > 130 AND accel < 0.1 AND (time_context = sleep OR primary_state = emergency) → EMERGENCY_CALL
-3. If interruption_cost > 0.7 AND health_risk < 0.4 → SILENT_LOG
-4. If suppress_count >= 3 AND urgency rising → escalate one level
-5. Compare health_risk vs interruption_cost → decide
+RULES:
+1. If hr > 135 AND accel < 0.1: EMERGENCY_CALL
+2. If hr > 105 AND primary_state = "working": GENTLE_NOTIFY (Suggest a breathing break)
+3. If primary_state = "meditating": SILENT_LOG
+4. Higher health_risk overrides interruption_cost.
 
-Return this exact JSON:
+INPUT:
+Profiler: {json.dumps(user_profile)}
+Latest HR: {latest_sensor.get('payload', {}).get('heart_rate')} | Accel: {latest_sensor.get('payload', {}).get('accel', {}).get('mag')}
+
+JSON:
 {{
  "action": "SILENT_LOG"|"HAPTIC_ONLY"|"GENTLE_NOTIFY"|"ACTIVE_ALERT"|"CAREGIVER_PING"|"EMERGENCY_CALL",
- "urgency_score": float 0-1,
- "health_risk_score": float 0-1,
- "interruption_cost_score": float 0-1,
- "notification_text": "Polite, empathetic message (only for GENTLE_NOTIFY/ACTIVE_ALERT, e.g., 'Remember to keep your shoulders relaxed')",
- "escalation_applied": boolean,
- "reasoning": string max 3 sentences
+ "urgency_score": 0-1,
+ "notification_text": "Empathetic msg for NOTIFY/ALERT only",
+ "reasoning": "Max 2 sentences"
 }}
 """
     response = client.chat.completions.create(
@@ -200,7 +191,7 @@ from datetime import datetime
 
 class WearableAgentBrain:
     def __init__(self):
-        self.telemetry_window = deque(maxlen=10)
+        self.telemetry_window = deque(maxlen=20)
         self.decision_history = []
         self.user_feedback = None
         self.feedback_time = 0

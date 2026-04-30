@@ -194,9 +194,8 @@ def map_to_ui_format(output: dict) -> dict:
             
         # Build Rich Reasoning Trace
         reasoning_trace = [
-            f"PROFILER_AGENT: State = {state_headline} ({int(profiler.get('state_confidence',0)*100)}%)",
-            f"PROFILER_AGENT: Environment = {profiler.get('environment', 'unknown')} | {profiler.get('time_context', 'unknown')}",
-            f"PROFILER_AGENT: Next State = {profiler.get('predicted_next_state', 'unknown')} ({int(profiler.get('prediction_confidence',0)*100)}%)",
+            f"PROFILER_AGENT: State = {state_headline} ({int(profiler.get('state_confidence', 0.5)*100)}%)",
+            f"PROFILER_AGENT: Environment = {profiler.get('environment', 'unknown')}",
             f"PROFILER_AGENT: Cost = {profiler.get('interruption_cost', 0.5)} | Stakes = {profiler.get('social_stakes', 'LOW')}",
             f"PROFILER_AGENT: Reasoning = {profiler.get('reasoning', 'Analyzing...')}"
         ]
@@ -218,7 +217,6 @@ def map_to_ui_format(output: dict) -> dict:
             "reasoning_trace": reasoning_trace,
             "urgency_score": urgency_score,
             "radar_values": radar_values,
-            "predicted_next": profiler.get("predicted_next_state", "unknown"),
             "cost_score": profiler.get("interruption_cost", 0.5)
         }
         
@@ -248,7 +246,7 @@ def map_to_ui_format(output: dict) -> dict:
 
 
 @app.post("/simulate_step")
-async def simulate_step(req: SimulateRequest):
+def simulate_step(req: SimulateRequest):
     try:
         # Prefer client data (real sensors) over server-generated data
         if req.sensor_data and req.sensor_data.get('hr') is not None:
